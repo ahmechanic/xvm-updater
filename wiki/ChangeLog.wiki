@@ -82,11 +82,11 @@
   * Fixed character encoding bug in Minimap enabling procedure.
 ----
 ==XVM Updater v2.3==
-- Added Hungarian language.
-- Minor code optimizations.
-- Fixed a critical bug causing the end of the installation ​sc​ri​pt (shortcut creation and temporary files cleaning) to not being processed.
-- Fixed minimap enabling procedure (added support of code comments).
-- Fixed UTF-8 handling in all configuration editing procedures (UTF-8 characters were replaced by '?').
+  * Added Hungarian language.
+  * Minor code optimizations.
+  * Fixed a critical bug causing the end of the installation ​sc​ri​pt (shortcut creation and temporary files cleaning) to not being processed.
+  * Fixed minimap enabling procedure (added support of code comments).
+  * Fixed UTF-8 handling in all configuration editing procedures (UTF-8 characters were replaced by '?').
 ----
 ==XVM Updater v2.4==
   * Code optimizations.
