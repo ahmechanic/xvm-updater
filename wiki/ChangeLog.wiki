@@ -2,6 +2,7 @@
 #labels Featured
 
 ==XVM Updater DEV==
+  * Removed now unused code.
   * Fixed the silent access violation causing a wrong game version detection.
   * Fixed the Polish translation.
 ----
