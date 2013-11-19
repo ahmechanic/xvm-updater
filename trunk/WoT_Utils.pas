@@ -24,7 +24,7 @@ interface
 
 uses
   SysUtils, Windows, Classes, Masks, ComObj, ShellAPI, ShlObj, ActiveX, Forms,
-  Tlhelp32;
+  Tlhelp32, dialogs;
 
 type
   TStringArray = array of String;
@@ -38,7 +38,6 @@ function GetShortcutTarget(FileName: String):String;
 
 procedure ShellUnzip(zipfile, targetfolder: String);
 procedure FCopy(source: String; destination: String);
-procedure CreateShortcut(Source, DestinationName: String);
 function DeleteDirectory(Dir: String):Boolean;
 procedure ExecuteAndWait(Filename, Parameters: String; Application: TApplication);
 function ProcessExists(exeFileName: String):Boolean;
@@ -60,18 +59,20 @@ var
   Dummy: DWORD;
 begin
   VerInfoSize := GetFileVersionInfoSize(PChar(FileName), Dummy);
-  GetMem(VerInfo, VerInfoSize);
-  GetFileVersionInfo(PChar(FileName), 0, VerInfoSize, VerInfo);
-  VerQueryValue(VerInfo, '\', Pointer(VerValue), VerValueSize);
-
-  with VerValue^ do
+  if VerInfoSize > 0 then
     begin
-      Result := IntToStr(dwFileVersionMS shr 16);
-      Result := Result + '.' + IntToStr(dwFileVersionMS and $FFFF);
-      Result := Result + '.' + IntToStr(dwFileVersionLS shr 16);
-    end;
-  FreeMem(VerInfo, VerInfoSize);
-  // Does NOT fail silently.
+      GetMem(VerInfo, VerInfoSize);
+      GetFileVersionInfo(PChar(FileName), 0, VerInfoSize, VerInfo);
+      VerQueryValue(VerInfo, '\', Pointer(VerValue), VerValueSize);
+
+      with VerValue^ do
+        begin
+          Result := IntToStr(dwFileVersionMS shr 16);
+          Result := Result + '.' + IntToStr(dwFileVersionMS and $FFFF);
+          Result := Result + '.' + IntToStr(dwFileVersionLS shr 16);
+        end;
+      FreeMem(VerInfo, VerInfoSize);
+    end
 end;
 
 
@@ -175,39 +176,18 @@ begin
 end;
 
 
-procedure CreateShortcut(Source, DestinationName: String);
-var
-  ShellLink: IShellLink;
-begin
-  if (UpperCase(ExtractFileExt(DestinationName)) <> '.LNK') then
-    DestinationName := DestinationName + '.lnk';
-
-  DestinationName := GetDesktop + '\' + DestinationName;
-  ShellLink := CreateComObject(CLSID_ShellLink) as IShellLink;
-  ShellLink.SetPath(PChar(Source));
-  ShellLink.SetShowCmd(SW_SHOW);
-  (ShellLink as IpersistFile).Save(StringToOleStr(DestinationName), true);
-  // Fail silently anyway.
-end;
-
-
 function GetShortcutTarget(FileName: String):String;
 var
   ShellLink: IShellLink;
   ShortcutWC: array[0..MAX_PATH] of Char;
   pfd: TWin32FindData;
 begin
-  try
-    if (UpperCase(extractFileExt(FileName)) <> '.LNK') then
-      FileName := FileName+'.lnk';
-    ShellLink := CreateComObject(CLSID_ShellLink) as IShellLink;
-    (ShellLink as IPersistFile).Load(StringToOleStr(FileName), STGM_READ);
-    ShellLink.GetPath(ShortcutWC, Max_Path, pfd, SLGP_UNCPRIORITY);
-    Result := String(ShortcutWC);
-  except
-    Result := '';
-    // Fail & continue silently.
-  end;
+  if (UpperCase(ExtractFileExt(FileName)) <> '.LNK') then
+    FileName := FileName + '.lnk';
+  ShellLink := CreateComObject(CLSID_ShellLink) as IShellLink;
+  (ShellLink as IPersistFile).Load(StringToOleStr(FileName), STGM_READ);
+  ShellLink.GetPath(ShortcutWC, Max_Path, pfd, SLGP_UNCPRIORITY);
+  Result := ShortcutWC;
 end;
 
 

@@ -22,14 +22,13 @@ interface
 
 uses
   Windows, SysUtils, Classes, Forms, FileCtrl, StrUtils, Controls, ComCtrls,
-  StdCtrls, WoT_Utils, Masks, Languages, ImgList, ButtonGroup, WinSvc,
-  ShellAPI, DLThread;
+  StdCtrls, WoT_Utils, Masks, Languages, ImgList, ButtonGroup, DLThread;
 // Note: I'm using a customized version of ButtonGroup.pas, allowing me to not
 //   display the ugly focus rectangle of the TButtonGroup component. However,
 //   I can't share the modified source code according to Embarcadero's license.
 //   Simply put { ... } around FFocusIndex handler in Paint event.
 
-// No declaration for this function in Windows unit, strange.
+// No declaration of this function in Windows unit, strange.
 function GetLongPathName(ShortPathName: PChar; LongPathName: PChar;
   cchBuffer: Integer): Integer; stdcall; external kernel32 name 'GetLongPathNameW';
 
@@ -60,6 +59,7 @@ type
   private
     DLThread: TDLThread;
     VersionsFiles, ConfigsFiles: TStringList;
+    WOTDir: String;
     Version: String;
     CustomScript: String;
     function Replace(Data: PString; Version: String):Boolean;
@@ -91,7 +91,7 @@ begin
       begin
         if FileExists(chosenDirectory+'\worldoftanks.exe') then
           begin
-            eDirectory.Text := chosenDirectory;
+            WOTDir := chosenDirectory;
             okDir := true;
             SetVersion;
           end
@@ -106,7 +106,8 @@ end;
 
 procedure TfWindow.SetVersion;
 begin
-  Version := GetVersion(eDirectory.Text+'\worldoftanks.exe');
+  eDirectory.Text := WOTDir;
+  Version := GetVersion(WOTDir+'\worldoftanks.exe');
   TDLThread.Create('http://edgar-fournival.fr/obj/wotxvm/xvm-versions.php?version='+Version, UpdateVersions);
 end;
 
@@ -119,7 +120,7 @@ var
 begin
   Script := '';
 
-  if eDirectory.Text = '' then
+  if WOTDir = '' then
     begin
       MessageBox(0, PChar(sSpecifyDirectory[currentLanguage]), 'XVM Updater', +mb_OK +mb_ICONWARNING);
       Exit;
@@ -244,7 +245,7 @@ begin
   SetLength(TempFolder, MAX_PATH);
   lng := GetTempPath(MAX_PATH, PChar(TempFolder));
   SetLength(TempFolder, lng-1);
-  TempFolder := ExtractLongPathName(TempFolder);  // Fix for failing compatibility mode
+  TempFolder := ExtractLongPathName(TempFolder);  // Fix for failing Windows functions
   Data^ := StringReplace(Data^, '%TEMP%', TempFolder, [rfReplaceAll]);
 
   // %WINDOWS%
@@ -281,7 +282,7 @@ begin
     Exit;
   end;
 
-  Data^ := StringReplace(Data^, '%WOT%', eDirectory.Text, [rfReplaceAll]);
+  Data^ := StringReplace(Data^, '%WOT%', WOTDir, [rfReplaceAll]);
   Data^ := StringReplace(Data^, '%WOTVERSION%', Version, [rfReplaceAll]);
 
   Result := true;
@@ -349,7 +350,7 @@ begin
                   if AnsiRightStr(Buffer, 2) = LanguageMin[currentLanguage] then
                     lCurrentAction.Caption := siCurrentAction[currentLanguage] +
                       AnsiRightStr(LineBuffer, Length(LineBuffer)-3)
-                  else if AnsiRightStr(Buffer, 2) = 'en' then
+                  else
                     lCurrentAction.Caption := siCurrentAction[currentLanguage] +
                       AnsiRightStr(LineBuffer, Length(LineBuffer)-3);
                 end;
@@ -424,21 +425,6 @@ begin
                 begin
                   LineBuffer := AnsiRightStr(LineBuffer, Length(LineBuffer)-1);
                   FCopy(StrSplit(LineBuffer)[0], StrSplit(LineBuffer)[1]);
-                end;
-            end
-
-          // SHORTCUT: create a shortcut to a specified file on the user desktop.
-          // Second parameter: shortcut name.
-          // EX:
-          //   SHORTCUT "C:\aaa.txt" "aaa"
-          else if (AnsiLeftStr(Buffer, 8) = 'SHORTCUT') then
-
-            begin
-              LineBuffer := ReadLine(Data, @Position);
-              if Execute then
-                begin
-                  LineBuffer := AnsiRightStr(LineBuffer, Length(LineBuffer)-1);
-                  CreateShortcut(StrSplit(LineBuffer)[0], StrSplit(LineBuffer)[1]);
                 end;
             end
 
@@ -711,16 +697,6 @@ end;
 
 
 procedure TfWindow.FormCreate(Sender: TObject);
-
-  function IsAdmin:Boolean;
-  var
-    Handle: SC_HANDLE;
-  begin
-    Handle := OpenSCManager(PChar(''), nil, GENERIC_READ or GENERIC_WRITE or GENERIC_EXECUTE);
-    Result := Handle <> 0;
-    if Result then CloseServiceHandle(Handle);
-  end;
-
 const
   WoT_Dir: array[1..5] of String = (
       'World_of_Tanks',
@@ -738,14 +714,6 @@ var
   currentSC: String;
   systemDrive: String;
 begin
-  // Restart with admin rights
-  if not(IsAdmin) then
-    begin
-      ShellExecute(Application.Handle, PChar('runas'), PChar(ParamStr(0)), PChar(ParamStr(1)), Nil, SW_SHOWNORMAL);
-      Application.Terminate;
-      Exit;
-    end;
-
   // DYNAMIC VERSIONS & CONFIGS LOADING SUPPORT
   VersionsFiles := TStringList.Create;
   ConfigsFiles := TStringList.Create;
@@ -784,26 +752,12 @@ begin
 
   // WOT INSTALLATION FOLDER AUTO-DETECTION
 
-  // Checking user-specific Start menu shortcut (fast)
-  try
-    if FileExists(GetStartMenu+'\Programs\World of Tanks\World of tanks.lnk') then
-      begin
-        eDirectory.Text := ExtractFileDir(
-          GetShortcutTarget(
-            GetStartMenu+'\Programs\World of Tanks\World of tanks.lnk'));
-        SetVersion;
-        Exit;
-      end;
-  except
-    // Fail silently.
-  end;
-
   // Checking global Start menu shortcut (fast)
   try
     GetDir(0, systemDrive);
     if FileExists(systemDrive[1]+':\ProgramData\Microsoft\Windows\Start Menu\Programs\World of Tanks\World of tanks.lnk') then
       begin
-        eDirectory.Text := ExtractFileDir(
+        WOTDir := ExtractFileDir(
           GetShortcutTarget(
             systemDrive[1]+':\ProgramData\Microsoft\Windows\Start Menu\Programs\World of Tanks\World of tanks.lnk'));
         SetVersion;
@@ -822,7 +776,7 @@ begin
           if MatchesMask(CurrentSC, '*worldoftanks.exe') or
              MatchesMask(CurrentSC, '*xvm-stat.exe') then
             begin
-              eDirectory.Text := ExtractFileDir(CurrentSC);
+              WOTDir := ExtractFileDir(CurrentSC);
               SetVersion;
               Exit;
             end;
@@ -847,7 +801,7 @@ begin
               begin
                 if DirectoryExists(StrPas(vDrive)+WoT_Dir[I]+'\') then
                   begin
-                    eDirectory.Text := StrPas(vDrive)+WoT_Dir[I];
+                    WOTDir := StrPas(vDrive)+WoT_Dir[I];
                     SetVersion;
                     Exit;
                   end;
