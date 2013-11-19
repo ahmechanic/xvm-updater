@@ -111,5 +111,5 @@ Adaptations for the new XVM release:
   * Fixed minor bug when a download fails.
   * Changed application icon.
 ----
-XVM Updater v1.0 RC1
- - First release of this utility, only for test purposes.
+==XVM Updater v1.0  RC1==
+  * First release of this utility, only for test purposes.
