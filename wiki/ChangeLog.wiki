@@ -4,7 +4,7 @@
 ==XVM Updater DEV==
   * Removed now unused code.
   * Fixed the silent access violation causing a wrong game version detection.
-  * Fixed the Polish translation.
+  * TODO: Fixed the Polish translation.
 ----
 ==XVM Updater v2.6==
   * Fixed a bug causing the 'Keep the old configuration' option to malfunction.
