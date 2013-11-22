@@ -783,8 +783,9 @@ begin
       begin
         repeat
           CurrentSC := GetShortcutTarget(GetDesktop+'\'+searchResult.Name);
-          if MatchesMask(CurrentSC, '*worldoftanks.exe') or
-             MatchesMask(CurrentSC, '*xvm-stat.exe') then
+          if MatchesMask(CurrentSC, '*WorldOfTanks.exe') or
+             MatchesMask(CurrentSC, '*xvm-stat.exe') or
+             MatchesMask(CurrentSC, '*WOTLauncher.exe') then
             begin
               WOTDir := ExtractFileDir(CurrentSC);
               SetVersion;
