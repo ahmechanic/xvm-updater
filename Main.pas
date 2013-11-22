@@ -612,6 +612,9 @@ begin
         end;
     end;
 
+  // Avoid garbage in the menu if HTML code is returned
+  if cmbXVMversion.Items.Count > 10 then cmbXVMVersion.Items.Clear;
+
   cmbXVMversion.ItemIndex := 0;
   if cmbXVMversion.Items.Count < 1 then
     begin
@@ -647,6 +650,13 @@ begin
           cmbConfig.Items.Add(StrSplit(Line)[0]);
           ConfigsFiles.Add(StrSplit(Line)[1]);
         end;
+    end;
+
+  // Avoid garbage in the menu if HTML code is returned
+  if cmbConfig.Items.Count > 10 then
+    begin
+      cmbConfig.Items.Clear;
+      cmbConfig.ItemIndex := cmbConfig.Items.Add(sDefault[currentLanguage]);
     end;
 
   if cmbConfig.Items.Count > 1 then cmbConfig.Enabled := true;
