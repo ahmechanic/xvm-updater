@@ -108,7 +108,9 @@ procedure TfWindow.SetVersion;
 begin
   eDirectory.Text := WOTDir;
   Version := GetVersion(WOTDir+'\worldoftanks.exe');
-  TDLThread.Create('http://edgar-fournival.fr/obj/wotxvm/xvm-versions.php?version='+Version, UpdateVersions);
+  TDLThread.Create(
+    'http://edgar-fournival.fr/obj/wotxvm/xvm-versions.php?version='+Version,
+    UpdateVersions);
 end;
 
 
@@ -122,14 +124,18 @@ begin
 
   if WOTDir = '' then
     begin
-      MessageBox(0, PChar(sSpecifyDirectory[currentLanguage]), 'XVM Updater', +mb_OK +mb_ICONWARNING);
+      MessageBox(0,
+        PChar(sSpecifyDirectory[currentLanguage]),
+        'XVM Updater', +mb_OK +mb_ICONWARNING);
       Exit;
     end;
 
   // Check if client is closed
   if ProcessExists('worldoftanks.exe') then
     begin
-      MessageBox(0, PChar(sClientRunning[currentLanguage]), 'XVM Updater', +mb_OK +mb_ICONINFORMATION);
+      MessageBox(0,
+        PChar(sClientRunning[currentLanguage]),
+        'XVM Updater', +mb_OK +mb_ICONINFORMATION);
       Exit;
     end;
 
@@ -146,8 +152,9 @@ begin
 
   // We want to download the XVM version corresponding to user's choice
   DVersion := Version;
-  if cmbXVMversion.ItemIndex > 0 then DVersion := VersionsFiles[cmbXVMversion.ItemIndex];
-  ScriptURL := 'http://edgar-fournival.fr/obj/wotxvm/script.php?FS=1&version='+DVersion;
+  if cmbXVMversion.ItemIndex > 0 then
+    DVersion := VersionsFiles[cmbXVMversion.ItemIndex];
+  ScriptURL := 'http://edgar-fournival.fr/obj/wotxvm/script.php?version='+DVersion;
 
   // Set up script source if forced from command line
   if CustomScript <> '' then
@@ -173,7 +180,9 @@ begin
   // If local file as script source isn't forced
   if (Script = '') then
     begin
-      Parse('STATUS_'+LanguageMin[currentLanguage]+' = '+sScriptDownload[currentLanguage], true);
+      Parse('STATUS_'+
+        LanguageMin[currentLanguage]+' = '+
+        sScriptDownload[currentLanguage], true);
 
       DLThread := TDLThread.Create(ScriptURL, True);
       try
@@ -194,7 +203,9 @@ begin
   if Length(Script) > 0 then
     begin
       Parse('PERCENT = 05', true);
-      Parse('STATUS_'+LanguageMin[currentLanguage]+' = '+sInformationsCollecting[currentLanguage], true);
+      Parse('STATUS_'+
+        LanguageMin[currentLanguage]+' = '+
+        sInformationsCollecting[currentLanguage], true);
 
       if Replace(@Script, Version) then
         begin
@@ -211,8 +222,11 @@ begin
   cbShowWinChances.Enabled := true;
   cbEnableStatsDisplay.Enabled := true;
   bProcess.Enabled := true;
-  if (cmbConfig.Items.Count > 1) and (not cbKeepConfig.Checked) then cmbConfig.Enabled := true;
-  if cmbXVMversion.Items.Count > 1 then cmbXVMversion.Enabled := true;
+
+  if (cmbConfig.Items.Count > 1) and (not cbKeepConfig.Checked) then
+    cmbConfig.Enabled := true;
+  if cmbXVMversion.Items.Count > 1 then
+    cmbXVMversion.Enabled := true;
 
   fWindow.Caption := siForm[currentLanguage];
   bProcess.Caption := siInstallUpdate[currentLanguage];
@@ -275,9 +289,12 @@ begin
     GetSubDirectories(eDirectory.Text+'\res_mods\', Versions);
     Versions.Sort;
     if Versions.Count > 1 then
-      Data^ := StringReplace(Data^, '%WOTOLDVERSION%', Versions[Versions.Count - 2], [rfReplaceAll]);
+      Data^ := StringReplace(Data^, '%WOTOLDVERSION%',
+                             Versions[Versions.Count - 2], [rfReplaceAll]);
   except
-    MessageBox(0, PChar(sFailModsDir[currentLanguage]), 'XVM Updater', +mb_OK +mb_ICONWARNING);
+    MessageBox(0,
+      PChar(sFailModsDir[currentLanguage]),
+      'XVM Updater', +mb_OK +mb_ICONWARNING);
     Result := false;
     Exit;
   end;
@@ -373,8 +390,9 @@ begin
                     Application.ProcessMessages;
                   until DLThread.Finished or Application.Terminated;
 
-                  if (DLThread.Data.Size < 1) or (DLThread.Failed) or Application.Terminated then
-                    Exit;
+                  if (DLThread.Data.Size < 1) or
+                     DLThread.Failed or
+                     Application.Terminated then Exit;
 
                   DLThread.Data.SaveToFile(StrSplit(LineBuffer)[1]);
                   DLThread.Data.Free;
@@ -440,7 +458,8 @@ begin
                 begin
                   pbCurrentAction.Style := pbstMarquee;
                   LineBuffer := AnsiRightStr(LineBuffer, Length(LineBuffer)-1);
-                  ExecuteAndWait(StrSplit(LineBuffer)[0], StrSplit(LineBuffer)[1], Application);
+                  ExecuteAndWait(StrSplit(LineBuffer)[0],
+                    StrSplit(LineBuffer)[1], Application);
                   if Application.Terminated then Exit;
                   pbCurrentAction.Style := pbstNormal;
                 end;
@@ -740,13 +759,14 @@ begin
   // AUTO LANGUAGE SELECTION
   // http://msdn.microsoft.com/en-us/library/cc233965.aspx
   // http://msdn.microsoft.com/en-us/library/dd318135.aspx
-  if (GetUserDefaultLCID and $00FF) = $0C then ChangeLanguage(lngFR)
+       if (GetUserDefaultLCID and $00FF) = $0C then ChangeLanguage(lngFR)
   else if (GetUserDefaultLCID and $00FF) = $07 then ChangeLanguage(lngDE)
   else if (GetUserDefaultLCID and $00FF) = $15 then ChangeLanguage(lngPL)
   else if (GetUserDefaultLCID and $00FF) = $19 then ChangeLanguage(lngRU)
   else if (GetUserDefaultLCID and $00FF) = $22 then ChangeLanguage(lngUA)
   else if (GetUserDefaultLCID and $00FF) = $0E then ChangeLanguage(lngHU)
   else if (GetUserDefaultLCID and $00FF) = $0B then ChangeLanguage(lngFI)
+  else if (GetUserDefaultLCID and $00FF) = $13 then ChangeLanguage(lngNL)
   else ChangeLanguage(lngEN);
 
   bgLanguage.ItemIndex := Integer(currentLanguage);
@@ -756,8 +776,9 @@ begin
   if ParamCount > 0 then
     begin
       CustomScript := ParamStr(1);
-      MessageBox(0, PChar(sForcedSource[currentLanguage]), 'XVM Updater',
-        +mb_OK +mb_ICONINFORMATION);
+      MessageBox(0,
+        PChar(sForcedSource[currentLanguage]),
+        'XVM Updater', +mb_OK +mb_ICONINFORMATION);
     end;
 
   // WOT INSTALLATION FOLDER AUTO-DETECTION
