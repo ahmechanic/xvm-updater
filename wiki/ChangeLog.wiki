@@ -3,7 +3,10 @@
 
 ==XVM Updater DEV==
   * Removed now unused code.
+  * Improved automatic folder detection.
   * Fixed the silent access violation causing a wrong game version detection.
+  * Fixed rare cases of HTML code display in drop-down menus.
+  * Added Dutch translation.
   * TODO: Fixed the Polish translation.
 ----
 ==XVM Updater v2.6==
