@@ -7,6 +7,7 @@
   * Fixed the silent access violation causing a wrong game version detection.
   * Fixed rare cases of HTML code display in drop-down menus.
   * Added Dutch translation.
+  * Fixed the Russian translation.
   * TODO: Fixed the Polish translation.
 ----
 ==XVM Updater v2.6==
