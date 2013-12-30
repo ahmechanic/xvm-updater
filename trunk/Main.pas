@@ -26,7 +26,8 @@ uses
 // Note: I'm using a customized version of ButtonGroup.pas, allowing me to not
 //   display the ugly focus rectangle of the TButtonGroup component. However,
 //   I can't share the modified source code according to Embarcadero's license.
-//   Simply put { ... } around FFocusIndex handler in Paint event.
+//   Simply put { ... } around FFocusIndex handler in Paint event or use my
+//   compiled version (ButtonGroup.dcu).
 
 // No declaration of this function in Windows unit, strange.
 function GetLongPathName(ShortPathName: PChar; LongPathName: PChar;
