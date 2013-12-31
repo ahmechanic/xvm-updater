@@ -1,14 +1,14 @@
 #summary List of all project changes
 #labels Featured
 
-==XVM Updater DEV==
+==XVM Updater v2.7==
   * Removed now unused code.
   * Improved automatic folder detection.
   * Fixed the silent access violation causing a wrong game version detection.
   * Fixed rare cases of HTML code display in drop-down menus.
   * Added Dutch translation.
-  * Fixed the Russian translation.
-  * TODO: Fixed the Polish translation.
+  * Fixed Russian translation.
+  * TODO: Fixed Polish translation.
 ----
 ==XVM Updater v2.6==
   * Fixed a bug causing the 'Keep the old configuration' option to malfunction.
