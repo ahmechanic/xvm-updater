@@ -1,4 +1,4 @@
-#summary List of all project changes
+#summary List of all software changes
 #labels Featured
 
 ==XVM Updater v2.7==
