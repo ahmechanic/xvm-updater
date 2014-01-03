@@ -81,7 +81,7 @@
 						<VersionInfo Name="MajorVer">2</VersionInfo>
 						<VersionInfo Name="MinorVer">7</VersionInfo>
 						<VersionInfo Name="Release">0</VersionInfo>
-						<VersionInfo Name="Build">1182</VersionInfo>
+						<VersionInfo Name="Build">1183</VersionInfo>
 						<VersionInfo Name="Debug">False</VersionInfo>
 						<VersionInfo Name="PreRelease">False</VersionInfo>
 						<VersionInfo Name="Special">False</VersionInfo>
@@ -93,7 +93,7 @@
 					<VersionInfoKeys>
 						<VersionInfoKeys Name="CompanyName">LaCourgette</VersionInfoKeys>
 						<VersionInfoKeys Name="FileDescription">World of Tanks&apos;s XVM one click installer/updater</VersionInfoKeys>
-						<VersionInfoKeys Name="FileVersion">2.7.0.1182</VersionInfoKeys>
+						<VersionInfoKeys Name="FileVersion">2.7.0.1183</VersionInfoKeys>
 						<VersionInfoKeys Name="InternalName"/>
 						<VersionInfoKeys Name="LegalCopyright">Copyright © 2013 - 2014 by Edgar &apos;LaCourgette&apos; Fournival</VersionInfoKeys>
 						<VersionInfoKeys Name="LegalTrademarks"/>
