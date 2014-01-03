@@ -4,6 +4,7 @@
 ==XVM Updater v2.7==
   * Removed now unused code.
   * Improved automatic folder detection.
+  * Added last nightly revision dynamical display.
   * Fixed the silent access violation causing a wrong game version detection.
   * Fixed rare cases of HTML code display in drop-down menus.
   * Added Dutch translation.
