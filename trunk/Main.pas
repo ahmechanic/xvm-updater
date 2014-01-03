@@ -57,17 +57,20 @@ type
     procedure bProcessClick(Sender: TObject);
     procedure cbKeepConfigClick(Sender: TObject);
     procedure bgLanguageButtonClicked(Sender: TObject; Index: Integer);
+    procedure cmbXVMVersionChange(Sender: TObject);
   private
     DLThread: TDLThread;
     VersionsFiles, ConfigsFiles: TStringList;
     WOTDir: String;
     Version: String;
     CustomScript: String;
+    LastNightlyRev: String;
     function Replace(Data: PString; Version: String):Boolean;
     function Parse(Data: String; Execute: Boolean):Integer;
     procedure SetVersion;
     procedure UpdateVersions(Data: TMemoryStream);
     procedure UpdateConfigs(Data: TMemoryStream);
+    procedure UpdateNightlyRev(Data: TMemoryStream);
     procedure ChangeLanguage(NewLng: TLanguage);
   public
     currentLanguage: TLanguage;
@@ -110,8 +113,9 @@ begin
   eDirectory.Text := WOTDir;
   Version := GetVersion(WOTDir+'\worldoftanks.exe');
   TDLThread.Create(
-    'http://edgar-fournival.fr/obj/wotxvm/xvm-versions.php?version='+Version,
+    'http://edgar-fournival.fr/obj/wotxvm/xvm-versions?version='+Version,
     UpdateVersions);
+  LastNightlyRev := '';
 end;
 
 
@@ -155,7 +159,7 @@ begin
   DVersion := Version;
   if cmbXVMversion.ItemIndex > 0 then
     DVersion := VersionsFiles[cmbXVMversion.ItemIndex];
-  ScriptURL := 'http://edgar-fournival.fr/obj/wotxvm/script.php?version='+DVersion;
+  ScriptURL := 'http://edgar-fournival.fr/obj/wotxvm/script?version='+DVersion;
 
   // Set up script source if forced from command line
   if CustomScript <> '' then
@@ -393,7 +397,11 @@ begin
 
                   if (DLThread.Data.Size < 1) or
                      DLThread.Failed or
-                     Application.Terminated then Exit;
+                     Application.Terminated then
+                    begin
+                      Result := Length(Data);
+                      Exit;
+                    end;
 
                   DLThread.Data.SaveToFile(StrSplit(LineBuffer)[1]);
                   DLThread.Data.Free;
@@ -461,7 +469,11 @@ begin
                   LineBuffer := AnsiRightStr(LineBuffer, Length(LineBuffer)-1);
                   ExecuteAndWait(StrSplit(LineBuffer)[0],
                     StrSplit(LineBuffer)[1], Application);
-                  if Application.Terminated then Exit;
+                  if Application.Terminated then
+                    begin
+                      Result := Length(Data);
+                      Exit;
+                    end;
                   pbCurrentAction.Style := pbstNormal;
                 end;
             end
@@ -600,6 +612,8 @@ begin
 
         end;
     end;
+
+  Result := Length(Data);
 end;
 
 
@@ -612,7 +626,7 @@ begin
   Position := 1;
 
   cmbXVMVersion.Items.Clear;
-  versionsFiles.Clear;
+  VersionsFiles.Clear;
 
   while Position < Length(Versions) do
     begin
@@ -641,7 +655,10 @@ begin
       cmbXVMversion.ItemIndex := cmbXVMversion.Items.Add(sStable[currentLanguage]);
       versionsFiles.Add('');
     end;
-  if cmbXVMversion.Items.Count > 1 then cmbXVMversion.Enabled := true else
+
+  if cmbXVMversion.Items.Count > 1 then
+    cmbXVMversion.Enabled := true
+  else
     cmbXVMversion.Enabled := false;
 end;
 
@@ -680,6 +697,27 @@ begin
     end;
 
   if cmbConfig.Items.Count > 1 then cmbConfig.Enabled := true;
+end;
+
+
+procedure TfWindow.UpdateNightlyRev(Data: TMemoryStream);
+var
+  I: Integer;
+  OldItemIndex: Integer;
+begin
+  // Avoid garbage
+  if (Data.Size < 10) and (Data.Size > 0) then
+    begin
+      SetString(LastNightlyRev, PAnsiChar(Data.Memory), Data.Size);
+
+      for I := 0 to cmbXVMversion.Items.Count - 1 do
+        if MatchesMask(cmbXVMversion.Items[I], '*nightly*') then
+          begin
+            OldItemIndex := cmbXVMversion.ItemIndex;
+            cmbXVMversion.Items[I] := cmbXVMversion.Items[I]+' ('+LastNightlyRev+')';
+            cmbXVMversion.ItemIndex := OldItemIndex;
+          end;
+    end;
 end;
 
 
@@ -725,6 +763,15 @@ begin
     end;
 end;
 
+
+procedure TfWindow.cmbXVMVersionChange(Sender: TObject);
+begin
+  if MatchesMask(cmbXVMversion.Items[cmbXVMversion.ItemIndex], '*nightly*') and
+     (Length(LastNightlyRev) = 0) then
+    TDLThread.Create(
+      'http://edgar-fournival.fr/obj/wotxvm/get_last_nightly',
+      UpdateNightlyRev);
+end;
 
 procedure TfWindow.FormCreate(Sender: TObject);
 const

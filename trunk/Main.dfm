@@ -107,12 +107,13 @@ object fWindow: TfWindow
     object cmbXVMVersion: TComboBox
       Left = 114
       Top = 118
-      Width = 127
+      Width = 132
       Height = 24
       Style = csDropDownList
       Anchors = [akLeft, akBottom]
       Enabled = False
       TabOrder = 4
+      OnChange = cmbXVMVersionChange
     end
     object cmbConfig: TComboBox
       Left = 354
@@ -222,7 +223,7 @@ object fWindow: TfWindow
     Left = 280
     Top = 288
     Bitmap = {
-      494C01010900C001100110000B00FFFFFFFF1910FFFFFFFFFFFFFFFF424D3600
+      494C01010900C001200110000B00FFFFFFFF1910FFFFFFFFFFFFFFFF424D3600
       000000000000360000002800000040000000210000000100180000000000C018
       0000000000000000000000000000000000007A00007400006E00006A00006400
       005E00005A00005600005000004C00004600004200004000003C00003A00003C
