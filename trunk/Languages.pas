@@ -296,7 +296,7 @@ const
     'XVM Updater '+_VERSION_+' by LaCourgette', // Thanks blademansw
     'XVM Updater '+_VERSION_+' par LaCourgette',
     'XVM Updater '+_VERSION_+' von LaCourgette [tr. Exekutive]',
-    'XVM Updater '+_VERSION_+' by LaCourgette [tr. pokapokami]',
+    'XVM Updater '+_VERSION_+' by LaCourgette [tł. pokapokami]',
     'XVM Updater '+_VERSION_+' by LaCourgette [tr. wot-ka.ru, Mr.A]',  // Thanks Recnac_UKR, M_r_A
     'XVM Updater '+_VERSION_+' by LaCourgette [tr. wot-ka.ru]',  // Thanks Recnac_UKR
     'XVM Updater '+_VERSION_+' by LaCourgette [tr. buenonacho94]',
