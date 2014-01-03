@@ -8,7 +8,7 @@
   * Fixed rare cases of HTML code display in drop-down menus.
   * Added Dutch translation.
   * Fixed Russian translation.
-  * TODO: Fixed Polish translation.
+  * Fixed Polish translation.
 ----
 ==XVM Updater v2.6==
   * Fixed a bug causing the 'Keep the old configuration' option to malfunction.
