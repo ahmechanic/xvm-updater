@@ -1,5 +1,16 @@
 #summary Liste de tous les changements du logiciel
+#labels Featured
 
+==XVM Updater v2.7==
+  * Suppression du code inutile.
+  * Amlioration de la détection automatique du répertoire d'installation.
+  * Ajout de l'affichage dynamique de la révision de la dernière nightly.
+  * Correction de l'erreur de violation d'accès mémoire silencieuse causant une mauvaise détection de la version du jeu.
+  * Correction de l'affichage de code HTML dans les menus déroulants dans de rares cas.
+  * Ajout du Néerlandais.
+  * Correction de la traduction russe.
+  * Correction de la traduction polonaise.
+----
 ==XVM Updater v2.6==
   * Correction d'un bug causant un malfonctionnement de l'option 'Garder l'ancienne configuration'.
   * Ajout du Finlandais.
@@ -45,7 +56,7 @@ Adaptations pour la nouvelle version d'XVM :
   * Correction définitive du mode compatiblité pour Windows 8.
   * Ajout de l'option 'Activer la fonctionnalité Minimap'.
 ----
-XVM Updater v2.0.1
+==XVM Updater v2.0.1==
   * Optimisations mineures du code.
   * Correction du mode de compatibilité Win7 pour Windows 8.
   * Correction d'un message d'erreur incorrect.
@@ -108,8 +119,3 @@ XVM Updater v2.0.1
 ----
 ==XVM Updater v1.0 RC1==
   * Première version de cet utilitaire, afin de tester si tout fonctionne bien.
-
-
-
-
-
