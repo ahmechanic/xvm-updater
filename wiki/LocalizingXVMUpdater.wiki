@@ -2,7 +2,8 @@
 #labels Featured
 
 = To Do =
-Currently, XVM Updater is fully translated in 8 languages, please stay tuned if you are willing to help with localizing, as new features may need  translating.
+Currently, XVM Updater is fully translated in 9 languages, please stay tuned if you are willing to help with localizing, as new features may need translating.
+You can also translate it in your own language.
 
 = Languages =
   * English ([http://forum.worldoftanks.eu/index.php?/user/lacourgette-2501118/ LaCourgette], [http://forum.worldoftanks.eu/index.php?/user/blademansw-5258620/ blademansw])
@@ -13,7 +14,8 @@ Currently, XVM Updater is fully translated in 8 languages, please stay tuned if 
   * Ukrainian (Alex @ [http://wot-ka.ru wot-ka.ru], [http://forum.worldoftanks.eu/index.php?/user/galaxy-recnac-286897/ Galaxy_Recnac])
   * Hungarian ([http://forum.worldoftanks.eu/index.php?/user/buenonacho94-1494277/ buenonacho94])
   * Finnish ([http://forum.worldoftanks.eu/index.php?/user/seula-1589990/ Seula])
+  * Dutch ([http://jediah.nl jediah.nl])
 
 = How To? =
 https://code.google.com/p/xvm-updater/source/browse/trunk/Languages.pas
-(will change soon)
+(the way translations are stored will change soon, if you want to help in translating please send me an email)
