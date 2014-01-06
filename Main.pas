@@ -373,7 +373,7 @@ begin
                     lCurrentAction.Caption := siCurrentAction[currentLanguage] +
                       AnsiRightStr(LineBuffer, Length(LineBuffer)-3)
                   // Default is english
-                  else AnsiRightStr(Buffer, 2) = LanguageMin[lngEN]
+                  else if AnsiRightStr(Buffer, 2) = LanguageMin[lngEN] then
                     lCurrentAction.Caption := siCurrentAction[currentLanguage] +
                       AnsiRightStr(LineBuffer, Length(LineBuffer)-3);
                 end;
