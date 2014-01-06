@@ -123,7 +123,6 @@ end;
 procedure TfWindow.bProcessClick(Sender: TObject);
 var
   Script: AnsiString;
-  ScriptFile: TFile;
   DVersion, ScriptURL: String;
 begin
   Script := '';
