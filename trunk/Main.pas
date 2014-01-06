@@ -21,8 +21,9 @@ unit Main;
 interface
 
 uses
-  Windows, SysUtils, Classes, Forms, FileCtrl, StrUtils, Controls, ComCtrls,
-  StdCtrls, WoT_Utils, Masks, Languages, ImgList, ButtonGroup, DLThread;
+  Windows, SysUtils, Classes, IOUtils, Forms, FileCtrl, StrUtils, Controls,
+  ComCtrls, StdCtrls, WoT_Utils, Masks, Languages, ImgList, ButtonGroup,
+  DLThread;
 // Note: I'm using a customized version of ButtonGroup.pas, allowing me to not
 //   display the ugly focus rectangle of the TButtonGroup component. However,
 //   I can't share the modified source code according to Embarcadero's license.
@@ -122,7 +123,7 @@ end;
 procedure TfWindow.bProcessClick(Sender: TObject);
 var
   Script: AnsiString;
-  ScriptFile: TFileStream;
+  ScriptFile: TFile;
   DVersion, ScriptURL: String;
 begin
   Script := '';
@@ -165,19 +166,9 @@ begin
   if CustomScript <> '' then
     begin
       if FileExists(CustomScript) then
-        begin
-          ScriptFile := TFileStream.Create(CustomScript, fmOpenRead or fmShareDenyWrite);
-          try
-            if ScriptFile.Size > 0 then
-              begin
-                SetLength(Script, ScriptFile.Size);
-                ScriptFile.Read(Script, ScriptFile.Size);
-              end;
-          finally
-            ScriptFile.Free;
-          end;
-        end
-      else ScriptURL := CustomScript;
+        Script := TFile.ReadAllText(CustomScript)
+      else
+        ScriptURL := CustomScript;
     end;
 
   Parse('PERCENT = 00', true);
