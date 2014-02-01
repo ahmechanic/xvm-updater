@@ -872,7 +872,7 @@ begin
       begin
         if IsDriveReady(vDrive) then
           begin
-            for I := 0 to Length(WoT_Dir) do
+            for I := 1 to Length(WoT_Dir) do
               begin
                 if DirectoryExists(StrPas(vDrive)+WoT_Dir[I]+'\') then
                   begin
