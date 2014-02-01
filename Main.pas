@@ -766,11 +766,15 @@ end;
 
 procedure TfWindow.FormCreate(Sender: TObject);
 const
-  WoT_Dir: array[1..5] of String = (
+  WoT_Dir: array[1..9] of String = (
       'World_of_Tanks',
+      'World of Tanks',
       'Games\World_of_Tanks',
+      'Games\World of Tanks',
       'Program Files (x86)\World_of_Tanks',
+      'Program Files (x86)\World of Tanks',
       'Program Files\World_of_Tanks',
+      'Program Files\World of Tanks',
       'World_of_Tanks_closed_Beta'
     );
 var
@@ -868,7 +872,7 @@ begin
       begin
         if IsDriveReady(vDrive) then
           begin
-            for I := 1 to 5 do
+            for I := 0 to Length(WoT_Dir) do
               begin
                 if DirectoryExists(StrPas(vDrive)+WoT_Dir[I]+'\') then
                   begin
