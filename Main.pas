@@ -483,8 +483,8 @@ begin
                     begin
                       FileReplaceString(LineBuffer, '"showChances": false',
                         '"showChances": true');
-                      FileReplaceString(LineBuffer, '"showChancesExp": false',
-                        '"showChancesExp": true');
+                      FileReplaceString(LineBuffer, '"showChances":false',
+                        '"showChances": true');
                     end;
                 end;
             end
