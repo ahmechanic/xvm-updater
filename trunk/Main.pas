@@ -223,7 +223,6 @@ begin
   if cmbXVMversion.Items.Count > 1 then
     cmbXVMversion.Enabled := true;
 
-  fWindow.Caption := siForm[currentLanguage];
   bProcess.Caption := siInstallUpdate[currentLanguage];
 end;
 
@@ -408,12 +407,8 @@ begin
             begin
               LineBuffer := ReadLine(Data, @Position);
               if Execute then
-                begin
-                  fWindow.Caption := Format('%s (%d%%)',
-                    [siForm[currentLanguage], StrToInt(AnsiRightStr(LineBuffer, Length(LineBuffer)-3))]);
-                  bProcess.Caption := Format('%s (%d%%)',
-                    [siInstallUpdate[currentLanguage], StrToInt(AnsiRightStr(LineBuffer, Length(LineBuffer)-3))]);
-                end;
+                bProcess.Caption := Format('%s (%d%%)',
+                  [siInstallUpdate[currentLanguage], StrToInt(AnsiRightStr(LineBuffer, Length(LineBuffer)-3))]);
             end
 
           // UNPACK: unzip a specified zipfile in a specified directory.
