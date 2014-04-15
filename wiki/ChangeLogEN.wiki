@@ -1,6 +1,11 @@
 #summary List of all software changes
 #labels Featured
 
+==XVM Updater v2.7.1==
+  * Added CONFIG_RTC in order to provide backward compatibility with the older configuration boot files.
+  * Minor graphical changes.
+  * Minor code optimizations.
+----
 ==XVM Updater v2.7==
   * Removed now unused code.
   * Improved automatic folder detection.
