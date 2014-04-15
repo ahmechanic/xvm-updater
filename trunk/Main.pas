@@ -504,6 +504,21 @@ begin
                 end;
             end
 
+          // CONFIG_RTC: removes trailing configs/ path in the boot config file.
+          // EX:
+          //   CONFIG_RTC C:\XVM.xvmconf
+          else if (AnsiLeftStr(Buffer, 10) = 'CONFIG_RTC') then
+
+            begin
+              LineBuffer := ReadLine(Data, @Position);
+              if Execute then
+                begin
+                  LineBuffer := AnsiRightStr(LineBuffer, Length(LineBuffer)-1);
+                  if FileExists(LineBuffer) then
+                    FileReplaceString(LineBuffer, '${"configs/', '${"');
+                end;
+            end
+
           // DELETEDIR: delete a specified directory.
           // EX:
           //   DELETEDIR C:\Folder
