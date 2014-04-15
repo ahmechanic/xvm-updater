@@ -1,6 +1,10 @@
 #summary Liste de tous les changements du logiciel
 #labels Featured
 
+==XVM Updater v2.7.1==
+  * Ajout de CONFIG_RTC afin de permettre la compatibilité avec les anciens fichiers de démarrage de configuration.
+  * Changements mineurs de l'interface.
+  * Optimisations mineures du code.
 ==XVM Updater v2.7==
   * Suppression du code inutile.
   * Amlioration de la détection automatique du répertoire d'installation.
