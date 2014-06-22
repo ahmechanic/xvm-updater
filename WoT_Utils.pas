@@ -23,8 +23,8 @@ unit WoT_Utils;
 interface
 
 uses
-  SysUtils, Windows, Classes, Masks, ComObj, ShellAPI, ShlObj, ActiveX, Forms,
-  Tlhelp32, dialogs;
+  SysUtils, Windows, Classes, Masks, ShellAPI, ShlObj, ActiveX, Forms, Tlhelp32,
+  ComOBJ;
 
 type
   TStringArray = array of String;
@@ -36,7 +36,6 @@ function GetDesktop:String;
 function GetStartMenu:String;
 function GetShortcutTarget(FileName: String):String;
 
-procedure ShellUnzip(zipfile, targetfolder: String);
 procedure FCopy(source: String; destination: String);
 function DeleteDirectory(Dir: String):Boolean;
 procedure ExecuteAndWait(Filename, Parameters: String; Application: TApplication);
@@ -143,19 +142,6 @@ begin
   except
     // Avoid access violation error if incorrect syntax
   end;
-end;
-
-
-procedure ShellUnzip(ZipFile, TargetFolder: String);
-var
-  ShellObject, Source, Dest: Variant;
-begin
-  if (not FileExists(ZipFile)) or (not DirectoryExists(TargetFolder)) then Exit;
-  ShellObject := CreateOleObject('Shell.Application');
-  Source := ShellObject.NameSpace(ZipFile);
-  Dest := ShellObject.NameSpace(TargetFolder);
-  Dest.CopyHere(Source.Items, 16);
-  // Should fail silently.
 end;
 
 

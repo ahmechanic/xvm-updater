@@ -23,7 +23,7 @@ interface
 uses
   Windows, SysUtils, Classes, IOUtils, Forms, FileCtrl, StrUtils, Controls,
   ComCtrls, StdCtrls, WoT_Utils, Masks, Languages, ImgList, ButtonGroup,
-  DLThread;
+  DLThread, AbArcTyp, AbUnZper;
 // Note: I'm using a customized version of ButtonGroup.pas, allowing me to not
 //   display the ugly focus rectangle of the TButtonGroup component. However,
 //   I can't share the modified source code according to Embarcadero's license.
@@ -67,6 +67,7 @@ type
     CustomScript: String;
     LastNightlyRev: String;
     function Replace(Data: PString; Version: String):Boolean;
+    procedure UnzipProgress(Sender: TObject; Progress: Byte; var Abort: Boolean);
     function Parse(Data: String; Execute: Boolean):Integer;
     procedure SetVersion;
     procedure UpdateVersions(Data: TMemoryStream);
@@ -300,6 +301,12 @@ begin
 end;
 
 
+procedure TfWindow.UnzipProgress(Sender: TObject; Progress: Byte; var Abort: Boolean);
+begin
+  pbCurrentAction.Position := Progress;
+end;
+
+
 function TfWindow.Parse(Data: String; Execute: Boolean):Integer;
 
   function ReadLine(Data: String; Position: PInteger):String;
@@ -318,6 +325,7 @@ function TfWindow.Parse(Data: String; Execute: Boolean):Integer;
 var
   Buffer, LineBuffer: String;
   Position: Integer;
+  Unzipper: TAbUnzipper;
 begin
   Position := 1;
   Buffer := '';
@@ -380,6 +388,7 @@ begin
                   LineBuffer := AnsiRightStr(LineBuffer, Length(LineBuffer)-1);
                   DLThread := TDLThread.Create(StrSplit(LineBuffer)[0], True);
                   DLThread.Start;
+
                   repeat
                     Sleep(10);
                     Application.ProcessMessages;
@@ -420,10 +429,17 @@ begin
               LineBuffer := ReadLine(Data, @Position);
               if Execute then
                 begin
-                  pbCurrentAction.Style := pbstMarquee;
+                  pbCurrentAction.Position := 0;
                   LineBuffer := AnsiRightStr(LineBuffer, Length(LineBuffer)-1);
-                  ShellUnzip(StrSplit(LineBuffer)[0], StrSplit(LineBuffer)[1]);
-                  pbCurrentAction.Style := pbstNormal;
+
+                  Unzipper := TAbUnzipper.Create(nil);
+                  with Unzipper do begin
+                    FileName := StrSplit(LineBuffer)[0];
+                    BaseDirectory := StrSplit(LineBuffer)[1]+'\';
+                    ExtractOptions := [eoCreateDirs, eoRestorePath];
+                    OnArchiveProgress := UnzipProgress;
+                    ExtractFiles('*.*');
+                  end;
                 end;
             end
 
@@ -453,13 +469,14 @@ begin
                 begin
                   pbCurrentAction.Style := pbstMarquee;
                   LineBuffer := AnsiRightStr(LineBuffer, Length(LineBuffer)-1);
-                  ExecuteAndWait(StrSplit(LineBuffer)[0],
-                    StrSplit(LineBuffer)[1], Application);
+                  ExecuteAndWait(StrSplit(LineBuffer)[0], StrSplit(LineBuffer)[1], Application);
+
                   if Application.Terminated then
                     begin
                       Result := Length(Data);
                       Exit;
                     end;
+
                   pbCurrentAction.Style := pbstNormal;
                 end;
             end
@@ -806,9 +823,9 @@ begin
   TDLThread.Create('http://edgar-fournival.fr/obj/wotxvm/xvm-configs.php',
     UpdateConfigs);
 
-  MessageBox(0, 'XVM Updater '+_VERSION_+' - TEST RELEASE'+#13#10+
+  {MessageBox(0, 'XVM Updater '+_VERSION_+' - TEST RELEASE'+#13#10+
                 'DO NOT SHARE'+#13#10+
-                'MAY BE UNSTABLE', 'XVM Updater', +mb_OK +mb_ICONWARNING);
+                'MAY BE UNSTABLE', 'XVM Updater', +mb_OK +mb_ICONWARNING);}
 
   // AUTO LANGUAGE SELECTION
   // http://msdn.microsoft.com/en-us/library/cc233965.aspx
