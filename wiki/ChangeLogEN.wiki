@@ -2,7 +2,7 @@
 #labels Featured
 
 ==XVM Updater v2.7.2==
-  * Switched from Windows API's ShellUnzip to Abbrevia TAbUnzipper.
+  * Switched from Windows !ShellUnzip to Abbrevia TAbUnzipper.
   * Fixed the bug causing the wrong detection of the WoT installation directory.
 ----
 ==XVM Updater v2.7.1==
