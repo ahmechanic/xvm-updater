@@ -1,6 +1,10 @@
 #summary Liste de tous les changements du logiciel
 #labels Featured
 
+==XVM Updater v2.7.2==
+  * L'extraction des archives est désormais réalisée par Abbrevia TAbUnzipper au lieu du !ShellUnzip de Windows.
+  * Correction du bug causant la mauvaise détection du répertoire d'installation de WoT.
+----
 ==XVM Updater v2.7.1==
   * Ajout de CONFIG_RTC afin de permettre la compatibilité avec les anciens fichiers de démarrage de configuration.
   * Changements mineurs de l'interface.
