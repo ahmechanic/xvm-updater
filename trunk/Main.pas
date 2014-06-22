@@ -795,6 +795,7 @@ var
   searchResult: TSearchRec;
   currentSC: String;
   systemDrive: String;
+  Directory: String;
 begin
   // DYNAMIC VERSIONS & CONFIGS LOADING SUPPORT
   VersionsFiles := TStringList.Create;
@@ -805,9 +806,9 @@ begin
   TDLThread.Create('http://edgar-fournival.fr/obj/wotxvm/xvm-configs.php',
     UpdateConfigs);
 
-  {MessageBox(0, 'XVM Updater '+_VERSION_+' - TEST RELEASE'+#13#10+
+  MessageBox(0, 'XVM Updater '+_VERSION_+' - TEST RELEASE'+#13#10+
                 'DO NOT SHARE'+#13#10+
-                'MAY BE UNSTABLE', 'XVM Updater', +mb_OK +mb_ICONWARNING);}
+                'MAY BE UNSTABLE', 'XVM Updater', +mb_OK +mb_ICONWARNING);
 
   // AUTO LANGUAGE SELECTION
   // http://msdn.microsoft.com/en-us/library/cc233965.aspx
@@ -841,11 +842,15 @@ begin
     GetDir(0, systemDrive);
     if FileExists(systemDrive[1]+':\ProgramData\Microsoft\Windows\Start Menu\Programs\World of Tanks\World of tanks.lnk') then
       begin
-        WOTDir := ExtractFileDir(
+        Directory := ExtractFileDir(
           GetShortcutTarget(
             systemDrive[1]+':\ProgramData\Microsoft\Windows\Start Menu\Programs\World of Tanks\World of tanks.lnk'));
-        SetVersion;
-        Exit;
+        if FileExists(Directory + '\worldoftanks.exe') then
+          begin
+            WOTDir := Directory;
+            SetVersion;
+            Exit;
+          end;
       end;
   except
     // Fail silently.
@@ -861,9 +866,13 @@ begin
              MatchesMask(CurrentSC, '*xvm-stat.exe') or
              MatchesMask(CurrentSC, '*WOTLauncher.exe') then
             begin
-              WOTDir := ExtractFileDir(CurrentSC);
-              SetVersion;
-              Exit;
+              Directory := ExtractFileDir(CurrentSC);
+              if FileExists(Directory + '\worldoftanks.exe') then
+                begin
+                  WOTDir := Directory;
+                  SetVersion;
+                  Exit;
+                end;
             end;
         until FindNext(searchResult) <> 0;
         SysUtils.FindClose(searchResult);
@@ -886,9 +895,13 @@ begin
               begin
                 if DirectoryExists(StrPas(vDrive)+WoT_Dir[I]+'\') then
                   begin
-                    WOTDir := StrPas(vDrive)+WoT_Dir[I];
-                    SetVersion;
-                    Exit;
+                    Directory := StrPas(vDrive)+WoT_Dir[I];
+                    if FileExists(Directory + '\worldoftanks.exe') then
+                      begin
+                        WOTDir := Directory;
+                        SetVersion;
+                        Exit;
+                      end;
                   end;
               end;
           end;
