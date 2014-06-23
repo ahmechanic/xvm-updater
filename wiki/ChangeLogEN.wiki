@@ -4,6 +4,7 @@
 ==XVM Updater v2.7.2==
   * Switched from Windows !ShellUnzip to Abbrevia TAbUnzipper.
   * Fixed the bug causing the wrong detection of the WoT installation directory.
+  * Optimized application icon and reduced EXE size.
 ----
 ==XVM Updater v2.7.1==
   * Added CONFIG_RTC in order to provide backward compatibility with the older configuration boot files.
