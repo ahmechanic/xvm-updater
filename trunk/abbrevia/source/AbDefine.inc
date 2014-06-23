@@ -236,7 +236,7 @@ Added in AppNote.txt v6.3.  }
 {Activate the following to include support for extracting files using
 all newer (zipx) compatible methods (Bzip2, Lzma, PPMd, WavPack)}
 
-{$DEFINE UnzipZipxSupport}
+{.$DEFINE UnzipZipxSupport}
 
 {Activate the following to include logging support in the deflate/
  inflate code. Since this logging support is a by-product of assertion

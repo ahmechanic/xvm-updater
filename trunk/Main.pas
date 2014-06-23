@@ -22,8 +22,8 @@ interface
 
 uses
   Windows, SysUtils, Classes, IOUtils, Forms, FileCtrl, StrUtils, Controls,
-  ComCtrls, StdCtrls, WoT_Utils, Masks, Languages, ImgList, ButtonGroup,
-  DLThread, AbArcTyp, AbUnZper;
+  WoT_Utils, Masks, Languages, ImgList, ButtonGroup, DLThread, AbUnZper,
+  AbArcTyp, ComCtrls, StdCtrls;
 // Note: I'm using a customized version of ButtonGroup.pas, allowing me to not
 //   display the ugly focus rectangle of the TButtonGroup component. However,
 //   I can't share the modified source code according to Embarcadero's license.
@@ -304,6 +304,7 @@ end;
 procedure TfWindow.UnzipProgress(Sender: TObject; Progress: Byte; var Abort: Boolean);
 begin
   pbCurrentAction.Position := Progress;
+  Application.ProcessMessages;
 end;
 
 
@@ -440,6 +441,7 @@ begin
                     OnArchiveProgress := UnzipProgress;
                     ExtractFiles('*.*');
                   end;
+                  Unzipper.Destroy;
                 end;
             end
 
