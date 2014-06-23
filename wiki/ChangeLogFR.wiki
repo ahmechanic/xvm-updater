@@ -4,6 +4,7 @@
 ==XVM Updater v2.7.2==
   * L'extraction des archives est désormais réalisée par Abbrevia TAbUnzipper au lieu du !ShellUnzip de Windows.
   * Correction du bug causant la mauvaise détection du répertoire d'installation de WoT.
+  * Optimisation de l'icône de l'application et réduction de la taille de l'exécutable.
 ----
 ==XVM Updater v2.7.1==
   * Ajout de CONFIG_RTC afin de permettre la compatibilité avec les anciens fichiers de démarrage de configuration.
@@ -21,7 +22,7 @@
   * Correction de la traduction polonaise.
 ----
 ==XVM Updater v2.6==
-  * Correction d'un bug causant un malfonctionnement de l'option 'Garder l'ancienne configuration'.
+  * Correction d'un bug causant un mauvais fonctionnement de l'option 'Garder l'ancienne configuration'.
   * Ajout du Finlandais.
   * Correction de la traduction allemande.
 ----
@@ -36,7 +37,7 @@ Adaptations pour la nouvelle version d'XVM :
   * Optimisations du code.
   * Ajout de la vérification des librairies .NET Framework 3.5 et Visual C++ 2005 SP1, XVM Updater les installera si besoin.
   * Correction de la sélection du répertoire d'installation de WoT (cliquer sur 'Non' ne fermait pas la fenêtre).
-  * Correction du téléchargement des configs pré-fournies des versions précédentes de WoT (les erreurs de téléchargement n'interromperont plus la mise à jour).
+  * Correction du téléchargement des configs pré-fournies des versions précédentes de WoT (les erreurs de téléchargement n’interrompront plus la mise à jour).
   * Correction de la variable %TEMP% causant l'erreur 'OS unsupported' lors de l'installation de Dokan sur Windows 8.
   * Correction d'un bug mineur dans l'affichage des traductions.
   * Amélioration de l'aspect visuel de la barre de progression lorsque l'installation d'une librairie ou l'extraction de fichiers est en cours.
@@ -62,7 +63,7 @@ Adaptations pour la nouvelle version d'XVM :
 ----
 ==XVM Updater v2.1==
   * Correction de quelques bugs d'interface.
-  * Correction définitive du mode compatiblité pour Windows 8.
+  * Correction définitive du mode compatibilité pour Windows 8.
   * Ajout de l'option 'Activer la fonctionnalité Minimap'.
 ----
 ==XVM Updater v2.0.1==
@@ -122,7 +123,7 @@ Adaptations pour la nouvelle version d'XVM :
   * La procédure d'installation/mise à jour vérifie désormais si le client est fermé avant de procéder (sinon le programme peut se bloquer).
   * Correction de bug dans la fonction IF_NEXISTS (le bloc d'instruction n'était jamais exécuté).
   * Correction de bug dans le remplacement de la variable %WINDOWS%.
-  * Correction de bugs mineurs dans la procédure d'interpretation du script.
+  * Correction de bugs mineurs dans la procédure d’interprétation du script.
   * Correction de bug mineur en cas d'échec du téléchargement des fichiers.
   * Nouvelle icône.
 ----
