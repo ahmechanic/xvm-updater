@@ -4,7 +4,7 @@ object fWindow: TfWindow
   BorderIcons = [biSystemMenu, biMinimize]
   BorderStyle = bsSingle
   Caption = 'XVM Updater v2.7 par LaCourgette'
-  ClientHeight = 326
+  ClientHeight = 302
   ClientWidth = 514
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -18,7 +18,7 @@ object fWindow: TfWindow
   OnCreate = FormCreate
   DesignSize = (
     514
-    326)
+    302)
   PixelsPerInch = 120
   TextHeight = 16
   object lWarning: TLabel
@@ -41,40 +41,30 @@ object fWindow: TfWindow
   end
   object gbOptions: TGroupBox
     Left = 8
-    Top = 47
+    Top = 45
     Width = 497
-    Height = 155
+    Height = 140
     Anchors = [akLeft, akTop, akRight]
     Caption = 'Options : '
     TabOrder = 0
     DesignSize = (
       497
-      155)
+      140)
     object lXVMversion: TLabel
       Left = 16
-      Top = 122
+      Top = 107
       Width = 92
       Height = 16
-      Anchors = [akLeft, akBottom]
       Caption = 'Version d'#39'XVM :'
-    end
-    object lConfig: TLabel
-      Left = 264
-      Top = 122
-      Width = 85
-      Height = 16
-      Anchors = [akRight, akBottom]
-      Caption = 'Configuration :'
     end
     object cbKeepConfig: TCheckBox
       Left = 16
-      Top = 95
+      Top = 78
       Width = 465
       Height = 17
       Anchors = [akLeft, akTop, akRight]
       Caption = 'Garder l'#39'ancienne configuration d'#39'XVM'
       TabOrder = 0
-      OnClick = cbKeepConfigClick
     end
     object eDirectory: TEdit
       Left = 16
@@ -95,35 +85,15 @@ object fWindow: TfWindow
       TabOrder = 2
       OnClick = bChangeDirectoryClick
     end
-    object cbShowWinChances: TCheckBox
-      Left = 16
-      Top = 75
-      Width = 465
-      Height = 17
-      Anchors = [akLeft, akTop, akRight]
-      Caption = 'Afficher les chances de victoire en jeu'
-      TabOrder = 3
-    end
     object cmbXVMVersion: TComboBox
       Left = 114
-      Top = 118
+      Top = 103
       Width = 134
       Height = 24
       Style = csDropDownList
-      Anchors = [akLeft, akBottom]
       Enabled = False
-      TabOrder = 4
+      TabOrder = 3
       OnChange = cmbXVMVersionChange
-    end
-    object cmbConfig: TComboBox
-      Left = 354
-      Top = 118
-      Width = 127
-      Height = 24
-      Style = csDropDownList
-      Anchors = [akRight, akBottom]
-      Enabled = False
-      TabOrder = 5
     end
     object cbEnableStatsDisplay: TCheckBox
       Left = 16
@@ -134,22 +104,23 @@ object fWindow: TfWindow
       Caption = 'Activer l'#39'affichage des statistiques des joueurs'
       Checked = True
       State = cbChecked
-      TabOrder = 6
+      TabOrder = 4
     end
   end
   object bProcess: TButton
     Left = 316
-    Top = 293
+    Top = 269
     Width = 190
     Height = 25
     Anchors = [akRight, akBottom]
     Caption = 'Installer / Mettre '#224' jour'
     TabOrder = 1
     OnClick = bProcessClick
+    ExplicitTop = 293
   end
   object bgLanguage: TButtonGroup
-    Left = 8
-    Top = 293
+    Left = 6
+    Top = 269
     Width = 241
     Height = 25
     Anchors = [akLeft, akBottom]
@@ -189,41 +160,21 @@ object fWindow: TfWindow
     TabOrder = 2
     OnButtonClicked = bgLanguageButtonClicked
   end
-  object gbProgress: TGroupBox
+  object gbConfig: TGroupBox
     Left = 8
-    Top = 208
-    Width = 497
-    Height = 78
-    Anchors = [akLeft, akTop, akRight]
-    Caption = 'Progression : '
+    Top = 191
+    Width = 498
+    Height = 18
+    Caption = 'Configuration :'
     TabOrder = 3
-    DesignSize = (
-      497
-      78)
-    object lCurrentAction: TLabel
-      Left = 16
-      Top = 53
-      Width = 97
-      Height = 16
-      Caption = 'Action en cours :'
-    end
-    object pbCurrentAction: TProgressBar
-      Left = 16
-      Top = 22
-      Width = 465
-      Height = 25
-      Anchors = [akLeft, akTop, akRight]
-      Smooth = True
-      TabOrder = 0
-    end
   end
   object ilLanguages: TImageList
     ColorDepth = cd24Bit
     Height = 11
-    Left = 280
-    Top = 288
+    Left = 480
+    Top = 8
     Bitmap = {
-      494C01010900C001280110000B00FFFFFFFF1910FFFFFFFFFFFFFFFF424D3600
+      494C010109000D00040010000B00FFFFFFFF1910FFFFFFFFFFFFFFFF424D3600
       000000000000360000002800000040000000210000000100180000000000C018
       0000000000000000000000000000000000007A00007400006E00006A00006400
       005E00005A00005600005000004C00004600004200004000003C00003A00003C

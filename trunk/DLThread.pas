@@ -46,7 +46,8 @@ type
 
 implementation
 
-uses Languages, Main;
+uses
+  Languages, Main;
 
 
 constructor TDLThread.Create(cURL: String; cShowErrors: Boolean);
@@ -82,7 +83,7 @@ begin
 
   Synchronize(procedure
     begin
-      fWindow.pbCurrentAction.Position := AWorkCount;
+      fWindow.Status.SetProgress(AWorkCount);
     end);
 end;
 
@@ -91,8 +92,7 @@ procedure TDLThread.DWorkBegin(ASender: TObject; AWorkMode: TWorkMode; AWorkCoun
 begin
   Synchronize(procedure
     begin
-      fWindow.pbCurrentAction.Max := AWorkCountMax;
-      fWindow.pbCurrentAction.Position := 0;
+      fWindow.Status.SetNormal(AWorkCountMax);
     end);
 end;
 
@@ -113,15 +113,11 @@ begin
       MessageBox(0, PChar(sFailDownload[fWindow.CurrentLanguage]+#13#10+Error), 'XVM Updater', +mb_OK +mb_ICONWARNING);
       with fWindow do
         begin
-          pbCurrentAction.Max := 100;
-          pbCurrentAction.Position := 100;
-          pbCurrentAction.State := pbsError;
+          Status.SetError;
 
           bChangeDirectory.Enabled := true;
           cbKeepConfig.Enabled := true;
-          cbShowWinChances.Enabled := true;
           cbEnableStatsDisplay.Enabled := true;
-          if (cmbConfig.Items.Count > 1) and (not cbKeepConfig.Checked) then cmbConfig.Enabled := true;
           if cmbXVMversion.Items.Count > 1 then cmbXVMversion.Enabled := true;
         end;
     end);

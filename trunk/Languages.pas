@@ -232,18 +232,6 @@ const
     'Oude XVM configuratie behouden'
   );
 
-  siShowWinChances: array[TLanguage] of String = (
-    'Show win chances in game',
-    'Afficher les chances de victoire en jeu',
-    'Zeige die Gewinn-chance im Spiel',
-    'Pokazuj procent szans na zwycięstwo podczas bitwy',
-    'Показывать шансы на победу',
-    'Показувати шанси на виграш',
-    'Győzelmi esélyek mutatása a játékban',
-    'Näytä voittomahdollisuus pelissä',
-    'Toon win kansen in het spel'
-  );
-
   siEnableStats: array[TLanguage] of String = (
     'Enable player stats display',
     'Activer l''affichage des statistiques des joueurs',
@@ -278,18 +266,6 @@ const
     'Konfiguráció: ',
     'Asetukset: ',
     'Configuratie: '
-  );
-
-  siCurrentAction: array[TLanguage] of String = (
-    'Current action: ',
-    'Action en cours : ',
-    'Wird bearbeitet: ',
-    'Trwa: ',
-    'Текущая операция: ',
-    'Зараз виконується: ',
-    'Aktuális művelet: ',
-    'Tämänhetkinen toimito: ',
-    'Huidige activiteit: '
   );
 
   siForm: array[TLanguage] of String = (
