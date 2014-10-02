@@ -39,7 +39,6 @@ function GetShortcutTarget(FileName: String):String;
 procedure FCopy(source: String; destination: String);
 function DeleteDirectory(Dir: String):Boolean;
 procedure ExecuteAndWait(Filename, Parameters: String; Application: TApplication);
-function ProcessExists(exeFileName: String):Boolean;
 function IsDriveReady(Root: String):Boolean;
 
 function StrSplit(Source: String):TStringArray;
@@ -216,34 +215,6 @@ begin
         GetExitCodeProcess(SEInfo.hProcess, ExitCode);
       until (ExitCode <> STILL_ACTIVE) or Application.Terminated;
     end
-end;
-
-
-function ProcessExists(exeFileName: String):Boolean;
-var
-  ContinueLoop: BOOL;
-  FSnapshotHandle: THandle;
-  FProcessEntry32: TProcessEntry32;
-begin
-  try
-    FSnapshotHandle := CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
-    FProcessEntry32.dwSize := SizeOf(FProcessEntry32);
-    ContinueLoop := Process32First(FSnapshotHandle, FProcessEntry32);
-    Result := False;
-    while Integer(ContinueLoop) <> 0 do
-    begin
-      if ((UpperCase(ExtractFileName(FProcessEntry32.szExeFile)) =
-        UpperCase(ExeFileName)) or (UpperCase(FProcessEntry32.szExeFile) =
-        UpperCase(ExeFileName))) then
-      begin
-        Result := True;
-      end;
-      ContinueLoop := Process32Next(FSnapshotHandle, FProcessEntry32);
-    end;
-    CloseHandle(FSnapshotHandle);
-  except
-    Result := False; // Fail silently & allow processing.
-  end;
 end;
 
 
