@@ -60,7 +60,7 @@ begin
   // Initialize the controls list if needed
   if not(Assigned(Controls)) then Controls := TComponentList.Create;
 
-  // If there is no controls in the list (it might have been cleared before)
+  // If there is no control in the list (it might have been cleared before)
   if Controls.Count = 0 then
     begin
       with TfWindow(Form) do
@@ -78,9 +78,6 @@ begin
           Height := 24;
           Left := 8;
           Top := Form.ClientHeight - 32;
-          State := pbsNormal;
-          Style := pbstNormal;
-          Max := 100;
         end;
       Controls.Add(ProgressBar);
 
@@ -140,6 +137,8 @@ begin
   with TProgressBar(Controls.First) do
     begin
       State := pbsError;
+      Style := pbstNormal;
+      Max := 100;
       Position := 100;
     end;
 end;
