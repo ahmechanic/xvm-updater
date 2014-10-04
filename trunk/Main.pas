@@ -23,7 +23,7 @@ interface
 uses
   Windows, SysUtils, Classes, IOUtils, Forms, FileCtrl, StrUtils, Controls,
   WoT_Utils, Masks, Languages, ImgList, ButtonGroup, DLThread, AbUnZper,
-  AbArcTyp, ComCtrls, StdCtrls, ProgressStatus;
+  AbArcTyp, ComCtrls, StdCtrls, ProgressStatus, Menus, dialogs;
 // Note: I'm using a customized version of ButtonGroup.pas, allowing me to not
 //   display the ugly focus rectangle of the TButtonGroup component. However,
 //   I can't share the modified source code according to Embarcadero's license.
@@ -35,6 +35,8 @@ function GetLongPathName(ShortPathName: PChar; LongPathName: PChar;
   cchBuffer: Integer): Integer; stdcall; external kernel32 name 'GetLongPathNameW';
 
 type
+  TProcessMode = (pmInstallUpdate, pmApplyOptions);
+
   TfWindow = class(TForm)
     lWarning: TLabel;
     gbOptions: TGroupBox;
@@ -48,11 +50,16 @@ type
     bgLanguage: TButtonGroup;
     ilLanguages: TImageList;
     gbConfig: TGroupBox;
+    pmProcess: TPopupMenu;
+    miInstallUpdate: TMenuItem;
+    miApplyOptions: TMenuItem;
     procedure FormCreate(Sender: TObject);
     procedure bChangeDirectoryClick(Sender: TObject);
     procedure bProcessClick(Sender: TObject);
     procedure bgLanguageButtonClicked(Sender: TObject; Index: Integer);
     procedure cmbXVMVersionChange(Sender: TObject);
+    procedure miInstallUpdateClick(Sender: TObject);
+    procedure miApplyOptionsClick(Sender: TObject);
   private
     DLThread: TDLThread;
     VersionsFiles, ConfigsFiles: TStringList;
@@ -60,6 +67,7 @@ type
     Version: String;
     CustomScript: String;
     LastNightlyRev: String;
+    ProcessMode: TProcessMode;
     function Replace(Data: PString; Version: String):Boolean;
     procedure UnzipProgress(Sender: TObject; Progress: Byte; var Abort: Boolean);
     function Parse(Data: String; Execute: Boolean):Integer;
@@ -162,14 +170,19 @@ begin
         sScriptDownload[currentLanguage], true);
 
       DLThread := TDLThread.Create(ScriptURL, True);
+
       try
         DLThread.Start;
+
         repeat
           Sleep(10);
           Application.ProcessMessages;
         until DLThread.Finished or Application.Terminated;
+
         if Application.Terminated then Exit;
-        SetString(Script, PAnsiChar(DLThread.Data.Memory), DLThread.Data.Size);
+
+        if not(DLThread.Failed) then
+          SetString(Script, PAnsiChar(DLThread.Data.Memory), DLThread.Data.Size);
       finally
         DLThread.Data.Free;
         DLThread.Free;
@@ -183,12 +196,10 @@ begin
         LanguageMin[currentLanguage]+' = '+
         sInformationsCollecting[currentLanguage], true);
 
-      if Replace(@Script, Version) then
-        begin
-          Parse(Script, true);
-          Status.SetProgress(100);
-        end;
+      if Replace(@Script, Version) then Parse(Script, true);
     end;
+
+  Status.SetProgress(100);
 
   // Re-enable main form controls
   bChangeDirectory.Enabled := true;
@@ -669,13 +680,16 @@ begin
   gbOptions.Caption := siOptions[currentLanguage];
   cbKeepConfig.Caption := siKeepConfig[currentLanguage];
   bChangeDirectory.Caption := siModify[currentLanguage];
-  bProcess.Caption := siInstallUpdate[currentLanguage];
+  bProcess.Caption := IfThen(ProcessMode = pmInstallUpdate,
+                         siInstallUpdate[currentLanguage],
+                         siApplyOptions[currentLanguage]);
   fWindow.Caption := siForm[currentLanguage];
   lXVMversion.Caption := siXVMversion[currentLanguage];
   cbEnableStatsDisplay.Caption := siEnableStats[currentLanguage];
+  miInstallUpdate.Caption := siInstallUpdate[currentLanguage];
+  miApplyOptions.Caption := siApplyOptions[currentLanguage];
 
   cmbXVMversion.Left := 114 + (lXVMversion.Width - 96);
-
 
   if cmbXVMversion.Items[0] = sStable[OldLng] then
     begin
@@ -717,6 +731,7 @@ var
   systemDrive: String;
   Directory: String;
 begin
+  ProcessMode := pmInstallUpdate;
   Status := TProgressStatus.Create;
 
   // DYNAMIC VERSIONS & CONFIGS LOADING SUPPORT
@@ -828,6 +843,18 @@ begin
   except
     // Fail silently.
   end;
+end;
+
+procedure TfWindow.miApplyOptionsClick(Sender: TObject);
+begin
+  ProcessMode := pmApplyOptions;
+  bProcess.Caption := miApplyOptions.Caption;
+end;
+
+procedure TfWindow.miInstallUpdateClick(Sender: TObject);
+begin
+  ProcessMode := pmInstallUpdate;
+  bProcess.Caption := miInstallUpdate.Caption;
 end;
 
 end.

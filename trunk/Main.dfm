@@ -3,7 +3,7 @@ object fWindow: TfWindow
   Top = 0
   BorderIcons = [biSystemMenu, biMinimize]
   BorderStyle = bsSingle
-  Caption = 'XVM Updater v2.7 par LaCourgette'
+  Caption = 'XVM Updater v3 par LaCourgette'
   ClientHeight = 302
   ClientWidth = 514
   Color = clBtnFace
@@ -19,7 +19,7 @@ object fWindow: TfWindow
   DesignSize = (
     514
     302)
-  PixelsPerInch = 120
+  PixelsPerInch = 96
   TextHeight = 16
   object lWarning: TLabel
     AlignWithMargins = True
@@ -108,15 +108,16 @@ object fWindow: TfWindow
     end
   end
   object bProcess: TButton
-    Left = 316
+    Left = 296
     Top = 269
-    Width = 190
+    Width = 210
     Height = 25
     Anchors = [akRight, akBottom]
     Caption = 'Installer / Mettre '#224' jour'
+    DropDownMenu = pmProcess
+    Style = bsSplitButton
     TabOrder = 1
     OnClick = bProcessClick
-    ExplicitTop = 293
   end
   object bgLanguage: TButtonGroup
     Left = 6
@@ -386,5 +387,19 @@ object fWindow: TfWindow
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000}
+  end
+  object pmProcess: TPopupMenu
+    AutoPopup = False
+    MenuAnimation = [maTopToBottom]
+    Left = 256
+    Top = 264
+    object miInstallUpdate: TMenuItem
+      Caption = 'Installer / Mettre '#224' jour'
+      OnClick = miInstallUpdateClick
+    end
+    object miApplyOptions: TMenuItem
+      Caption = 'Appliquer les options'
+      OnClick = miApplyOptionsClick
+    end
   end
 end

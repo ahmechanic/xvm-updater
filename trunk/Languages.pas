@@ -25,7 +25,7 @@ type
   // /!\ Keep the same order in arrays /!\ //
 
 const
-  _VERSION_ = 'v2.7';
+  _VERSION_ = 'v3';
   LanguageMin: array[TLanguage] of String = ('en', 'fr', 'de', 'pl', 'ru', 'ua', 'hu', 'fi', 'nl');
 
   sSelectDirectory: array[TLanguage] of String = (
@@ -206,6 +206,18 @@ const
     'Telepítés / Frissítés',
     'Asenna / Päivitä',
     'Installeer / Update'
+  );
+
+  siApplyOptions: array[TLanguage] of String = (
+    'Apply options only',
+    'Appliquer les options',
+    '#TODO#',
+    '#TODO#',
+    '#TODO#',
+    '#TODO#',
+    '#TODO#',
+    '#TODO#',
+    '#TODO#'
   );
 
   siModify: array[TLanguage] of String = (

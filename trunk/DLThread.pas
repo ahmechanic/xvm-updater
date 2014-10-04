@@ -110,16 +110,11 @@ begin
 
   Synchronize(procedure
     begin
-      MessageBox(0, PChar(sFailDownload[fWindow.CurrentLanguage]+#13#10+Error), 'XVM Updater', +mb_OK +mb_ICONWARNING);
-      with fWindow do
-        begin
-          Status.SetError;
-
-          bChangeDirectory.Enabled := true;
-          cbKeepConfig.Enabled := true;
-          cbEnableStatsDisplay.Enabled := true;
-          if cmbXVMversion.Items.Count > 1 then cmbXVMversion.Enabled := true;
-        end;
+      fWindow.Status.SetError;
+      MessageBox(0,
+                 PChar(sFailDownload[fWindow.CurrentLanguage]+#13#10+Error),
+                 'XVM Updater',
+                 +mb_OK +mb_ICONWARNING);
     end);
 end;
 
