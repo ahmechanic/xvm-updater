@@ -21,7 +21,7 @@ unit DLThread;
 interface
 
 uses
-  SysUtils, Classes, Windows, IdHTTP, IdComponent, ComCtrls;
+  SysUtils, Classes, IdComponent;
 
 type
   TDownloadCallback = procedure(Data: TMemoryStream) of Object;
@@ -47,7 +47,7 @@ type
 implementation
 
 uses
-  Languages, Main;
+  Languages, Main, Windows, IdHTTP, ComCtrls;
 
 
 constructor TDLThread.Create(cURL: String; cShowErrors: Boolean);
