@@ -24,7 +24,8 @@ uses
   DLThread in 'DLThread.pas',
   WoT_Utils in 'WoT_Utils.pas',
   Languages in 'Languages.pas',
-  ProgressStatus in 'ProgressStatus.pas';
+  ProgressStatus in 'ProgressStatus.pas',
+  DetectionThread in 'DetectionThread.pas';
 
 {$R *.res}
 

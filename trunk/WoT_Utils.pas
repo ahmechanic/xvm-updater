@@ -33,7 +33,7 @@ type
 function GetVersion(FileName: String):String;
 procedure GetSubDirectories(const directory: String; List: TStringList);
 function GetDesktop:String;
-function GetStartMenu:String;
+function GetStartMenuPrograms:String;
 function GetShortcutTarget(FileName: String):String;
 
 procedure FCopy(source: String; destination: String);
@@ -161,6 +161,15 @@ begin
 end;
 
 
+function GetStartMenuPrograms:String;
+begin
+  SetLength(Result, MAX_PATH);
+  SHGetFolderPath(0, CSIDL_PROGRAMS, 0, SHGFP_TYPE_CURRENT, PChar(Result));
+  SetLength(Result, StrLen(PChar(Result)));
+  // Can't fail.
+end;
+
+
 function GetShortcutTarget(FileName: String):String;
 var
   ShellLink: IShellLink;
@@ -244,24 +253,6 @@ begin
   except
     // Fail & continue silently.
   end;
-end;
-
-
-function GetStartMenu:String;
-  procedure FreePidl(pidl: PItemIDList);
-  var
-    allocator: IMalloc;
-  begin
-    if Succeeded(SHGetMalloc(allocator)) then allocator.Free(pidl);
-  end;
-var
-  pidl: PItemIDList;
-  buf: array[0..MAX_PATH] of Char;
-begin
-  if Succeeded(SHGetSpecialFolderLocation(0, CSIDL_STARTMENU, pidl)) then
-  SHGetPathFromIDList(pidl, buf);
-  Result := StrPas(buf);
-  FreePIDL(pidl);
 end;
 
 

@@ -19,7 +19,7 @@ object fWindow: TfWindow
   DesignSize = (
     514
     302)
-  PixelsPerInch = 96
+  PixelsPerInch = 120
   TextHeight = 16
   object lWarning: TLabel
     AlignWithMargins = True
@@ -66,25 +66,6 @@ object fWindow: TfWindow
       Caption = 'Garder l'#39'ancienne configuration d'#39'XVM'
       TabOrder = 0
     end
-    object eDirectory: TEdit
-      Left = 16
-      Top = 24
-      Width = 348
-      Height = 24
-      Anchors = [akLeft, akTop, akRight]
-      Enabled = False
-      TabOrder = 1
-    end
-    object bChangeDirectory: TButton
-      Left = 370
-      Top = 23
-      Width = 111
-      Height = 26
-      Anchors = [akTop, akRight]
-      Caption = 'Modifier'
-      TabOrder = 2
-      OnClick = bChangeDirectoryClick
-    end
     object cmbXVMVersion: TComboBox
       Left = 114
       Top = 103
@@ -92,7 +73,7 @@ object fWindow: TfWindow
       Height = 24
       Style = csDropDownList
       Enabled = False
-      TabOrder = 3
+      TabOrder = 1
       OnChange = cmbXVMVersionChange
     end
     object cbEnableStatsDisplay: TCheckBox
@@ -104,13 +85,22 @@ object fWindow: TfWindow
       Caption = 'Activer l'#39'affichage des statistiques des joueurs'
       Checked = True
       State = cbChecked
-      TabOrder = 4
+      TabOrder = 2
+    end
+    object cbInstallations: TComboBox
+      Left = 16
+      Top = 24
+      Width = 465
+      Height = 24
+      Style = csDropDownList
+      TabOrder = 3
+      OnChange = cbInstallationsChange
     end
   end
   object bProcess: TButton
-    Left = 296
+    Left = 316
     Top = 269
-    Width = 210
+    Width = 190
     Height = 25
     Anchors = [akRight, akBottom]
     Caption = 'Installer / Mettre '#224' jour'

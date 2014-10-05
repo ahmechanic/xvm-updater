@@ -64,18 +64,6 @@ const
     'Geen World of Tanks installatie gevonden.'+#13#10+'Geef het handmatig op.'
   );
 
-  sClientRunning: array[TLanguage] of String = (
-    'Please exit World of Tanks client before proceeding'+#13#10+'to XVM installation or update.',
-    'Merci d''arrêter World of Tanks avant de procéder'+#13#10+'à l''installation ou la mise à jour d''XVM.',
-    'Bitte schließe World of Tanks um mit'+#13#10+'der XVM Installation/Update fortzufahren.',
-    'Wyłącz grę oraz zamknij klienta gry, zanim przejdziesz'+#13#10+'do instalacji lub aktualizacji XVM.',
-    'Пожалуйста, закройте клиент World of Tanks до начала установки'+#13#10+'или обновления XVM.',
-    'Будьласка, вийдіть з World of Tanks для, встановлення'+#13#10+'чи оновлення XVM.',
-    'Kérlek, zárd be a World of Tanks klienst,'+#13#10+'mielőtt megkezdenéd az XVM telepítését vagy frissítését.',
-    'Ole hyvä ja poistu World of Tanks pelistä ennen'+#13#10+'XVM asenusta, tai päivitystä',
-    'Sluit de World of Tanks client voordat u verder gaat'+#13#10+'met het installeren of updaten van XVM.'
-  );
-
   sFailModsDir: array[TLanguage] of String = (
     'The installation directory is incorrect or corrupted.'+#13#10+'Unable to check "res_mods" directory content.',
     'Votre répertoire d''installation est incorrect ou corrompu.'+#13#10+'Impossible de vérifier le contenu du dossier "res_mods".',
@@ -220,16 +208,16 @@ const
     '#TODO#'
   );
 
-  siModify: array[TLanguage] of String = (
-    'Modify',
-    'Modifier',
-    'Wechseln',
-    'Zmień',
-    'Изменить',
-    'Змінити',
-    'Tallózás',
-    'Muokkaa',
-    'Bewerken'
+  siBrowse: array[TLanguage] of String = (
+    'Browse...',
+    'Parcourir...',
+    '#TODO#',
+    '#TODO#',
+    '#TODO#',
+    '#TODO#',
+    '#TODO#',
+    '#TODO#',
+    '#TODO#'
   );
 
   siKeepConfig: array[TLanguage] of String = (
