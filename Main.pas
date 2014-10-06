@@ -22,15 +22,19 @@ interface
 
 uses
   Windows, SysUtils, Classes, IOUtils, Forms, FileCtrl, StrUtils, Controls,
-  WoT_Utils, Languages, ImgList, ButtonGroup, DLThread, AbUnZper, AbArcTyp,
-  ComCtrls, StdCtrls, ProgressStatus, Menus, Masks, DetectionThread;
-// Note: I'm using a customized version of ButtonGroup.pas, allowing me to not
-//   display the ugly focus rectangle of the TButtonGroup component. However,
+  WoT_Utils, Languages, ImgList, DLThread, AbUnZper, AbArcTyp, Math,
+  ComCtrls, StdCtrls, ProgressStatus, Menus, Masks, DetectionThread, pngimage,
+  ExtCtrls;
+// Note: I'm using a customized version of StdCtrls.pas, allowing me to not
+//   display the ugly focus rectangle of the TComboBox component. However,
 //   I can't share the modified source code according to Embarcadero's license.
-//   Simply put { ... } around FFocusIndex handler in Paint event or use my
-//   compiled version (ButtonGroup.dcu).
+//   Simply comment this line in TCustomComboBox.CNDrawItem:
+//      if odFocused in State then DrawFocusRect(hDC, rcItem);
+//   and change the previous if by:
+//      if (Integer(itemID) >= 0) and (odSelected in State) and not(odComboBoxEdit in State) then
+//   or use my compiled version (StdCtrls.dcu).
 
-// No declaration of this function in Windows unit, strange.
+// No declaration of this function in the Windows unit, strange.
 function GetLongPathName(ShortPathName: PChar; LongPathName: PChar;
   cchBuffer: Integer): Integer; stdcall; external kernel32 name 'GetLongPathNameW';
 
@@ -45,20 +49,23 @@ type
     lXVMversion: TLabel;
     cmbXVMVersion: TComboBox;
     cbEnableStatsDisplay: TCheckBox;
-    bgLanguage: TButtonGroup;
     ilLanguages: TImageList;
-    gbConfig: TGroupBox;
     pmProcess: TPopupMenu;
     miInstallUpdate: TMenuItem;
     miApplyOptions: TMenuItem;
     cbInstallations: TComboBox;
+    cbLanguages: TComboBox;
+    iDonate: TImage;
+    lDonate: TLabel;
     procedure FormCreate(Sender: TObject);
     procedure bProcessClick(Sender: TObject);
-    procedure bgLanguageButtonClicked(Sender: TObject; Index: Integer);
     procedure cmbXVMVersionChange(Sender: TObject);
     procedure miInstallUpdateClick(Sender: TObject);
     procedure miApplyOptionsClick(Sender: TObject);
     procedure cbInstallationsChange(Sender: TObject);
+    procedure cbLanguagesDrawItem(Control: TWinControl; Index: Integer;
+      Rect: TRect; State: TOwnerDrawState);
+    procedure cbLanguagesChange(Sender: TObject);
   private
     DLThread: TDLThread;
     DetectionThread: TDetectionThread;
@@ -685,12 +692,6 @@ begin
 end;
 
 
-procedure TfWindow.bgLanguageButtonClicked(Sender: TObject; Index: Integer);
-begin
-  ChangeLanguage(TLanguage(Index));
-end;
-
-
 procedure TfWindow.ChangeLanguage(NewLng: TLanguage);
 var
   OldLng: TLanguage;
@@ -710,6 +711,11 @@ begin
   cbEnableStatsDisplay.Caption := siEnableStats[currentLanguage];
   miInstallUpdate.Caption := siInstallUpdate[currentLanguage];
   miApplyOptions.Caption := siApplyOptions[currentLanguage];
+
+  lDonate.Caption := siDonate[currentLanguage];
+  lDonate.Font.Height := IfThen(currentLanguage = lngRU, -10, -14);
+  if currentLanguage = lngUA then lDonate.Font.Height := -13;
+  lDonate.Top := IfThen(currentLanguage = lngRU, iDonate.Top + 5, iDonate.Top + 3);
 
   cbInstallations.Items.Delete(cbInstallations.Items.Count-1);
   cbInstallations.Items.Add(siBrowse[currentLanguage]);
@@ -734,15 +740,37 @@ begin
 end;
 
 
+procedure TfWindow.cbLanguagesChange(Sender: TObject);
+begin
+  ChangeLanguage(TLanguage(cbLanguages.ItemIndex));
+end;
+
+procedure TfWindow.cbLanguagesDrawItem(Control: TWinControl; Index: Integer;
+  Rect: TRect; State: TOwnerDrawState);
+begin
+  with Control as TCustomComboBox do
+    begin
+      Canvas.FillRect(Rect);
+      ilLanguages.Draw(Canvas, Rect.Left + 2, Rect.Top + 3, Index);
+    end;
+end;
+
 procedure TfWindow.FormCreate(Sender: TObject);
+var
+  LCode: Cardinal;
 begin
   LastNightlyRev := '';
   ProcessMode := pmInstallUpdate;
   Status := TProgressStatus.Create;
 
+  lDonate.Font.Color := RGB(0, 51, 102); // Paypal original color
+
   // DYNAMIC VERSIONS & CONFIGS LOADING SUPPORT
   VersionsFiles := TStringList.Create;
   cmbXVMversion.ItemIndex := cmbXVMversion.Items.Add(sStable[currentLanguage]);
+
+  // WOT INSTALLATION FOLDER AUTO-DETECTION
+  DetectionThread := TDetectionThread.Create;
 
   {MessageBox(0, 'XVM Updater '+_VERSION_+' - TEST RELEASE'+#13#10+
                 'DO NOT SHARE'+#13#10+
@@ -751,20 +779,18 @@ begin
   // AUTO LANGUAGE SELECTION
   // http://msdn.microsoft.com/en-us/library/cc233965.aspx
   // http://msdn.microsoft.com/en-us/library/dd318135.aspx
-       if (GetUserDefaultLCID and $00FF) = $0C then ChangeLanguage(lngFR)
-  else if (GetUserDefaultLCID and $00FF) = $07 then ChangeLanguage(lngDE)
-  else if (GetUserDefaultLCID and $00FF) = $15 then ChangeLanguage(lngPL)
-  else if (GetUserDefaultLCID and $00FF) = $19 then ChangeLanguage(lngRU)
-  else if (GetUserDefaultLCID and $00FF) = $22 then ChangeLanguage(lngUA)
-  else if (GetUserDefaultLCID and $00FF) = $0E then ChangeLanguage(lngHU)
-  else if (GetUserDefaultLCID and $00FF) = $0B then ChangeLanguage(lngFI)
-  else if (GetUserDefaultLCID and $00FF) = $13 then ChangeLanguage(lngNL)
+  LCode := GetUserDefaultLCID and $00FF;
+       if LCode = $0C then ChangeLanguage(lngFR)
+  else if LCode = $07 then ChangeLanguage(lngDE)
+  else if LCode = $15 then ChangeLanguage(lngPL)
+  else if LCode = $19 then ChangeLanguage(lngRU)
+  else if LCode = $22 then ChangeLanguage(lngUA)
+  else if LCode = $0E then ChangeLanguage(lngHU)
+  else if LCode = $0B then ChangeLanguage(lngFI)
+  else if LCode = $13 then ChangeLanguage(lngNL)
   else ChangeLanguage(lngEN);
 
-  bgLanguage.ItemIndex := Integer(currentLanguage);
-
-  // WOT INSTALLATION FOLDER AUTO-DETECTION
-  DetectionThread := TDetectionThread.Create;
+  cbLanguages.ItemIndex := Integer(currentLanguage);
 
   // FORCING SCRIPT SOURCE FROM COMMAND LINE SUPPORT
   CustomScript := '';

@@ -268,16 +268,29 @@ const
     'Configuratie: '
   );
 
+  siDonate: array[TLanguage] of String = (
+    'Donate',
+    'Faire un don',
+    'Spenden',
+    'Przekaź darowiznę',
+    'Сделать пожертвование',
+    'Зробити пожертву',
+    '#TODO#',
+    '#TODO#',
+    'Doneren'
+  );
+  //('en', 'fr', 'de', 'pl', 'ru', 'ua', 'hu', 'fi', 'nl');
+
   siForm: array[TLanguage] of String = (
-    'XVM Updater '+_VERSION_+' by LaCourgette', // Thanks blademansw
-    'XVM Updater '+_VERSION_+' par LaCourgette',
-    'XVM Updater '+_VERSION_+' von LaCourgette [tr. Exekutive]',
-    'XVM Updater '+_VERSION_+' by LaCourgette [tł. pokapokami]',
-    'XVM Updater '+_VERSION_+' by LaCourgette [tr. wot-ka.ru, Mr.A]',  // Thanks Recnac_UKR, M_r_A
-    'XVM Updater '+_VERSION_+' by LaCourgette [tr. wot-ka.ru]',  // Thanks Recnac_UKR
-    'XVM Updater '+_VERSION_+' by LaCourgette [tr. buenonacho94]',
-    'XVM Updater '+_VERSION_+' by LaCourgette [tr. Seula]',
-    'XVM Updater '+_VERSION_+' by LaCourgette [tr. jediah.nl]'
+    'XVM Updater '+_VERSION_, // Thanks blademansw
+    'XVM Updater '+_VERSION_,
+    'XVM Updater '+_VERSION_+' [tr. Exekutive]',
+    'XVM Updater '+_VERSION_+' [tł. pokapokami]',
+    'XVM Updater '+_VERSION_+' [tr. wot-ka.ru, Mr.A]',  // Thanks Recnac_UKR
+    'XVM Updater '+_VERSION_+' [tr. wot-ka.ru]',  // Thanks Recnac_UKR
+    'XVM Updater '+_VERSION_+' [tr. buenonacho94]',
+    'XVM Updater '+_VERSION_+' [tr. Seula]',
+    'XVM Updater '+_VERSION_+' [tr. jediah.nl]'
   );
 
 implementation
