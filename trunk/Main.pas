@@ -777,7 +777,7 @@ begin
     end;
 
   // Wait before starting up, we need to detect at least one WoT installation
-  while not(DetectionThread.InstallationFound) do Sleep(10);
+  while not(DetectionThread.Finished or DetectionThread.InstallationFound) do Sleep(10);
 end;
 
 end.
