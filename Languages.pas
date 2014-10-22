@@ -148,18 +148,6 @@ const
     'Stable'
   );
 
-  siWarning: array[TLanguage] of String = (
-    'If this is the first time you install XVM or you don''t know the meaning of these options,'+#13#10+'please leave them as they currently are and click directly on "Install / Update".',
-    'Si vous installez XVM pour la première fois ou que vous ne savez pas à quoi servent'+#13#10+'ces options, ne modifiez rien et cliquez sur "Installer / Mettre à jour".',
-    'Wenn dies das erste Mal ist, dass du XVM installierst oder nicht weißt, was die'+#13#10+'Optionen bewirken, lasse diese wie sie sind und klicke direkt auf ''Installieren / Updaten''.',
-    'Jeśli po raz pierwszy instalujesz XVM lub nie znasz znaczenia poniższych opcji,'+#13#10+'pozostaw domyślne ustawienia i kliknij bezpośrednio "Instaluj / Aktualizuj".',
-    'Если вы устанавливаете XVM в первый раз или не знаете назначения этих'+#13#10+'настроек, оставьте их как есть и нажмите "Установить / Обновить".',
-    'Якщо Ви вперше інсталюєте XVM і не знаете як це робити, залиште всі'+#13#10+'налаштування як є і натисніть кнопку "Інсталювати / Оновити".',
-    'Ha most telepítesz először XVM-et, vagy nem tudod, mit változtatnak ezek a'+#13#10+'beállítások, ne módosíts rajtuk, hanem kattints közvetlenül a "Telepítés / Frissítés"-re.',
-    'Jos tämä on ensimmäinen kerta, kun asennat XVM:modia ja et tiedä valintojen'+#13#10+'merkitystä, kannattaa valita "Asenna / Päivitä".',
-    'Als dit de eerste keer is dat u XVM installeert of u weet niet wat de betekenis van deze'+#13#10+'opties is, laat deze dan voor wat ze zijn en klik meteen op "Installeer / Update".'
-  );
-
   siOptions: array[TLanguage] of String = (
     'Options:',
     'Options :',
@@ -279,7 +267,6 @@ const
     '#TODO#',
     'Doneren'
   );
-  //('en', 'fr', 'de', 'pl', 'ru', 'ua', 'hu', 'fi', 'nl');
 
   siForm: array[TLanguage] of String = (
     'XVM Updater '+_VERSION_, // Thanks blademansw

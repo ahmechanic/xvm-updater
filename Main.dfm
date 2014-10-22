@@ -4,8 +4,8 @@ object fWindow: TfWindow
   BorderIcons = [biSystemMenu, biMinimize]
   BorderStyle = bsSingle
   Caption = 'XVM Updater v3'
-  ClientHeight = 225
-  ClientWidth = 514
+  ClientHeight = 312
+  ClientWidth = 449
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -17,33 +17,16 @@ object fWindow: TfWindow
   Scaled = False
   OnCreate = FormCreate
   DesignSize = (
-    514
-    225)
-  PixelsPerInch = 120
+    449
+    312)
+  PixelsPerInch = 96
   TextHeight = 16
-  object lWarning: TLabel
-    AlignWithMargins = True
-    Left = 8
-    Top = 7
-    Width = 481
-    Height = 32
-    Anchors = [akLeft, akTop, akRight]
-    Caption = 
-      'Si vous installez XVM pour la premi'#232're fois ou que vous ne savez' +
-      ' pas '#224' quoi servent'#13#10'ces options, ne modifiez rien et cliquez su' +
-      'r '#39'Installer / Mettre '#224' jour'#39'.'
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -13
-    Font.Name = 'Tahoma'
-    Font.Style = [fsUnderline]
-    ParentFont = False
-  end
   object iDonate: TImage
-    Left = 61
-    Top = 193
+    Left = 301
+    Top = 9
     Width = 140
     Height = 23
+    Anchors = [akTop, akRight]
     Picture.Data = {
       0954506E67496D61676589504E470D0A1A0A0000000D494844520000008C0000
       00170806000000D961A7BE0000000467414D410000B18F0BFC61050000000970
@@ -77,13 +60,15 @@ object fWindow: TfWindow
       34EE015C5E11256764FE1BA203C0B3EB204BE43182D123FCE4EBC0FCE5ACC58A
       7A63C32AA63023299600E3469BAC69FE1FA8CC1C67C3E14A327C4FF2A3A125FF
       1AF805380F2A1AD09A1FF60000000049454E44AE426082}
+    ExplicitLeft = 326
   end
   object lDonate: TLabel
-    Left = 61
-    Top = 196
+    Left = 301
+    Top = 12
     Width = 140
     Height = 16
     Alignment = taCenter
+    Anchors = [akTop, akRight]
     AutoSize = False
     Caption = 'Faire un don'
     Font.Charset = DEFAULT_CHARSET
@@ -92,33 +77,44 @@ object fWindow: TfWindow
     Font.Name = 'Arial'
     Font.Style = [fsBold, fsItalic]
     ParentFont = False
+    ExplicitLeft = 326
+  end
+  object lCourgette: TLabel
+    Left = 8
+    Top = 282
+    Width = 69
+    Height = 16
+    Caption = 'LaCourgette'
   end
   object gbOptions: TGroupBox
     Left = 8
-    Top = 45
-    Width = 498
+    Top = 38
+    Width = 433
     Height = 140
     Anchors = [akLeft, akTop, akRight]
     Caption = 'Options : '
     TabOrder = 0
+    ExplicitWidth = 458
     DesignSize = (
-      498
+      433
       140)
     object lXVMversion: TLabel
       Left = 16
       Top = 107
       Width = 92
       Height = 16
+      Anchors = [akLeft, akBottom]
       Caption = 'Version d'#39'XVM :'
     end
     object cbKeepConfig: TCheckBox
       Left = 16
       Top = 78
-      Width = 466
+      Width = 401
       Height = 17
       Anchors = [akLeft, akTop, akRight]
       Caption = 'Garder l'#39'ancienne configuration d'#39'XVM'
       TabOrder = 0
+      ExplicitWidth = 426
     end
     object cmbXVMVersion: TComboBox
       Left = 114
@@ -126,6 +122,7 @@ object fWindow: TfWindow
       Width = 134
       Height = 24
       Style = csDropDownList
+      Anchors = [akLeft, akBottom]
       Enabled = False
       TabOrder = 1
       OnChange = cmbXVMVersionChange
@@ -133,28 +130,40 @@ object fWindow: TfWindow
     object cbEnableStatsDisplay: TCheckBox
       Left = 16
       Top = 55
-      Width = 466
+      Width = 401
       Height = 17
       Anchors = [akLeft, akTop, akRight]
       Caption = 'Activer l'#39'affichage des statistiques des joueurs'
       Checked = True
       State = cbChecked
       TabOrder = 2
+      ExplicitWidth = 426
     end
     object cbInstallations: TComboBox
       Left = 16
       Top = 24
-      Width = 466
+      Width = 401
       Height = 24
       Style = csDropDownList
       Anchors = [akLeft, akTop, akRight]
       TabOrder = 3
       OnChange = cbInstallationsChange
+      ExplicitWidth = 426
+    end
+    object bMoreOptions: TButton
+      Left = 295
+      Top = 103
+      Width = 122
+      Height = 25
+      Anchors = [akRight, akBottom]
+      Caption = 'Plus d'#39'options...'
+      TabOrder = 4
+      ExplicitLeft = 320
     end
   end
   object bProcess: TButton
-    Left = 312
-    Top = 192
+    Left = 247
+    Top = 279
     Width = 194
     Height = 25
     Anchors = [akRight, akBottom]
@@ -169,34 +178,65 @@ object fWindow: TfWindow
     Style = bsSplitButton
     TabOrder = 1
     OnClick = bProcessClick
+    ExplicitLeft = 272
+    ExplicitTop = 284
   end
-  object cbLanguages: TComboBox
+  object bgLanguage: TButtonGroup
     Left = 8
-    Top = 193
-    Width = 47
-    Height = 23
-    Style = csOwnerDrawFixed
-    DropDownCount = 9
-    ItemHeight = 17
+    Top = 9
+    Width = 241
+    Height = 25
+    BorderStyle = bsNone
+    ButtonHeight = 25
+    ButtonWidth = 26
+    ButtonOptions = [gboGroupStyle]
+    Images = ilLanguages
+    Items = <
+      item
+        ImageIndex = 0
+      end
+      item
+        ImageIndex = 1
+      end
+      item
+        ImageIndex = 2
+      end
+      item
+        ImageIndex = 3
+      end
+      item
+        ImageIndex = 4
+      end
+      item
+        ImageIndex = 5
+      end
+      item
+        ImageIndex = 6
+      end
+      item
+        ImageIndex = 7
+      end
+      item
+        ImageIndex = 8
+      end>
     TabOrder = 2
-    OnChange = cbLanguagesChange
-    OnDrawItem = cbLanguagesDrawItem
-    Items.Strings = (
-      ''
-      ''
-      ''
-      ''
-      ''
-      ''
-      ''
-      ''
-      '')
+    OnButtonClicked = bgLanguageButtonClicked
+  end
+  object GroupBox1: TGroupBox
+    Left = 8
+    Top = 180
+    Width = 433
+    Height = 90
+    Anchors = [akLeft, akTop, akRight]
+    Caption = 'Configuration :'
+    TabOrder = 3
+    ExplicitWidth = 458
   end
   object ilLanguages: TImageList
     ColorDepth = cd24Bit
     Height = 11
-    Left = 480
-    Top = 8
+    Left = 200
+    Top = 285
     Bitmap = {
       494C010109000D00040010000B00FFFFFFFF1910FFFFFFFFFFFFFFFF424D3600
       000000000000360000002800000040000000210000000100180000000000C018
@@ -414,8 +454,8 @@ object fWindow: TfWindow
   object pmProcess: TPopupMenu
     AutoPopup = False
     MenuAnimation = [maTopToBottom]
-    Left = 272
-    Top = 192
+    Left = 160
+    Top = 283
     object miInstallUpdate: TMenuItem
       Caption = 'Installer / Mettre '#224' jour'
       OnClick = miInstallUpdateClick

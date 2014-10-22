@@ -67,9 +67,7 @@ begin
         begin
           Height := Height + 32;
           bProcess.Top := bProcess.Top - 32;
-          cbLanguages.Top := cbLanguages.Top - 32;
-          iDonate.Top := iDonate.Top - 32;
-          lDonate.Top := lDonate.Top - 32;
+          bgLanguage.Top := bgLanguage.Top - 32;
         end;
 
       ProgressBar := TProgressBar.Create(Form);
@@ -105,9 +103,7 @@ begin
     begin
       Height := Height - 32;
       bProcess.Top := bProcess.Top + 32;
-      cbLanguages.Top := cbLanguages.Top + 32;
-      iDonate.Top := iDonate.Top + 32;
-      lDonate.Top := lDonate.Top + 32;
+      bgLanguage.Top := bgLanguage.Top + 32;
     end;
 end;
 
