@@ -24,7 +24,7 @@ uses
   Windows, SysUtils, Classes, IOUtils, Forms, FileCtrl, StrUtils, Controls,
   WoT_Utils, Languages, ImgList, DLThread, AbUnZper, AbArcTyp, Math,
   ComCtrls, StdCtrls, ProgressStatus, Menus, Masks, DetectionThread, pngimage,
-  ExtCtrls;
+  ExtCtrls, ButtonGroup;
 // Note: I'm using a customized version of StdCtrls.pas, allowing me to not
 //   display the ugly focus rectangle of the TComboBox component. However,
 //   I can't share the modified source code according to Embarcadero's license.
@@ -42,7 +42,7 @@ type
   TProcessMode = (pmInstallUpdate, pmApplyOptions);
 
   TfWindow = class(TForm)
-    lWarning: TLabel;
+    bgLanguage: TButtonGroup;
     gbOptions: TGroupBox;
     cbKeepConfig: TCheckBox;
     bProcess: TButton;
@@ -54,18 +54,18 @@ type
     miInstallUpdate: TMenuItem;
     miApplyOptions: TMenuItem;
     cbInstallations: TComboBox;
-    cbLanguages: TComboBox;
     iDonate: TImage;
     lDonate: TLabel;
+    bMoreOptions: TButton;
+    GroupBox1: TGroupBox;
+    lCourgette: TLabel;
     procedure FormCreate(Sender: TObject);
     procedure bProcessClick(Sender: TObject);
     procedure cmbXVMVersionChange(Sender: TObject);
     procedure miInstallUpdateClick(Sender: TObject);
     procedure miApplyOptionsClick(Sender: TObject);
     procedure cbInstallationsChange(Sender: TObject);
-    procedure cbLanguagesDrawItem(Control: TWinControl; Index: Integer;
-      Rect: TRect; State: TOwnerDrawState);
-    procedure cbLanguagesChange(Sender: TObject);
+    procedure bgLanguageButtonClicked(Sender: TObject; Index: Integer);
   private
     DLThread: TDLThread;
     DetectionThread: TDetectionThread;
@@ -119,6 +119,12 @@ procedure TfWindow.miInstallUpdateClick(Sender: TObject);
 begin
   ProcessMode := pmInstallUpdate;
   bProcess.Caption := miInstallUpdate.Caption;
+end;
+
+
+procedure TfWindow.bgLanguageButtonClicked(Sender: TObject; Index: Integer);
+begin
+  ChangeLanguage(TLanguage(Index));
 end;
 
 
@@ -699,7 +705,6 @@ begin
   OldLng := currentLanguage;
   currentLanguage := NewLng;
 
-  lWarning.Caption := siWarning[currentLanguage];
   gbOptions.Caption := siOptions[currentLanguage];
   cbKeepConfig.Caption := siKeepConfig[currentLanguage];
   //bChangeDirectory.Caption := siModify[currentLanguage];
@@ -740,21 +745,6 @@ begin
 end;
 
 
-procedure TfWindow.cbLanguagesChange(Sender: TObject);
-begin
-  ChangeLanguage(TLanguage(cbLanguages.ItemIndex));
-end;
-
-procedure TfWindow.cbLanguagesDrawItem(Control: TWinControl; Index: Integer;
-  Rect: TRect; State: TOwnerDrawState);
-begin
-  with Control as TCustomComboBox do
-    begin
-      Canvas.FillRect(Rect);
-      ilLanguages.Draw(Canvas, Rect.Left + 2, Rect.Top + 3, Index);
-    end;
-end;
-
 procedure TfWindow.FormCreate(Sender: TObject);
 var
   LCode: Cardinal;
@@ -790,7 +780,7 @@ begin
   else if LCode = $13 then ChangeLanguage(lngNL)
   else ChangeLanguage(lngEN);
 
-  cbLanguages.ItemIndex := Integer(currentLanguage);
+  bgLanguage.ItemIndex := Integer(currentLanguage);
 
   // FORCING SCRIPT SOURCE FROM COMMAND LINE SUPPORT
   CustomScript := '';
