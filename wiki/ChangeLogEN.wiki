@@ -1,6 +1,10 @@
 #summary List of all software changes
 #labels Featured
 
+==XVM Updater v2.8==
+Adaptations for the new XVM release:
+  * Removed the "show win chances" option.
+----
 ==XVM Updater v2.7.2==
   * Switched from Windows !ShellUnzip to Abbrevia TAbUnzipper.
   * Fixed the bug causing the wrong detection of the WoT installation directory.
