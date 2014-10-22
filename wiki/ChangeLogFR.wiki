@@ -4,6 +4,7 @@
 ==XVM Updater v2.8==
 Adaptations pour la nouvelle version d'XVM :
   * Suppression de l'option "afficher les chances de victoire".
+  * Suppression de l'option "afficher les stats".
 ----
 ==XVM Updater v2.7.2==
   * L'extraction des archives est désormais réalisée par Abbrevia TAbUnzipper au lieu du !ShellUnzip de Windows.
